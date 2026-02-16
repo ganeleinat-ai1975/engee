@@ -433,7 +433,7 @@ function LayoutContent({ children, currentPageName, siteSettings }) {
       )}
 
       {/* --- Desktop Header --- */}
-      <header className="hidden md:flex bg-background/95 backdrop-blur-md sticky top-0 z-40 w-full items-center justify-between px-4 py-2 h-auto">
+                  <header className="hidden md:flex bg-background sticky top-0 z-40 w-full items-center justify-between px-4 py-2 h-auto">
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(true)}>
               <Menu className="w-6 h-6 text-main" />
