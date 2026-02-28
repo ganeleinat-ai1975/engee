@@ -514,7 +514,7 @@ function LayoutContent({ children, currentPageName, siteSettings }) {
                 </DropdownMenu>
               </>
             ) : (
-              <Button variant="ghost" onClick={() => UserEntity.login()} className="text-gray-700 text-sm p-2">
+              <Button variant="ghost" onClick={() => base44.auth.redirectToLogin()} className="text-gray-700 text-sm p-2">
                 {t('login', language)}
               </Button>
             )}
@@ -614,7 +614,7 @@ function LayoutContent({ children, currentPageName, siteSettings }) {
                         </DropdownMenuContent>
                     </DropdownMenu>
                 ) : (
-                    <Button variant="ghost" size="icon" onClick={() => UserEntity.login()}>
+                    <Button variant="ghost" size="icon" onClick={() => base44.auth.redirectToLogin()}>
                         <UserIcon className="w-5 h-5 text-gray-600" />
                     </Button>
                 )}
@@ -690,7 +690,7 @@ function LayoutContent({ children, currentPageName, siteSettings }) {
                 </div>
               ) : (
                 <button
-                  onClick={() => { UserEntity.login(); setIsMenuOpen(false); }}
+                  onClick={() => { base44.auth.redirectToLogin(); setIsMenuOpen(false); }}
                   className="text-lg text-main hover-text-primary transition-colors font-normal"
                 >
                   {t('login', language)}

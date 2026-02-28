@@ -47,37 +47,37 @@
  *
  * The mainPage value must match a key in the PAGES object exactly.
  */
-import Home from './pages/Home';
-import Products from './pages/Products';
 import About from './pages/About';
-import Contact from './pages/Contact';
 import Admin from './pages/Admin';
-import Product from './pages/Product';
 import Cart from './pages/Cart';
-import Wishlist from './pages/Wishlist';
-import Profile from './pages/Profile';
-import Orders from './pages/Orders';
 import Checkout from './pages/Checkout';
+import Contact from './pages/Contact';
+import Home from './pages/Home';
 import OrderSuccess from './pages/OrderSuccess';
+import Orders from './pages/Orders';
 import Payment from './pages/Payment';
+import Product from './pages/Product';
+import Products from './pages/Products';
+import Profile from './pages/Profile';
+import Wishlist from './pages/Wishlist';
 import Workshop from './pages/Workshop';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
-    "Home": Home,
-    "Products": Products,
     "About": About,
-    "Contact": Contact,
     "Admin": Admin,
-    "Product": Product,
     "Cart": Cart,
-    "Wishlist": Wishlist,
-    "Profile": Profile,
-    "Orders": Orders,
     "Checkout": Checkout,
+    "Contact": Contact,
+    "Home": Home,
     "OrderSuccess": OrderSuccess,
+    "Orders": Orders,
     "Payment": Payment,
+    "Product": Product,
+    "Products": Products,
+    "Profile": Profile,
+    "Wishlist": Wishlist,
     "Workshop": Workshop,
 }
 
