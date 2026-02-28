@@ -372,6 +372,14 @@ function LayoutContent({ children, currentPageName, siteSettings }) {
           display: block;
         }
 
+        /* Fix for clickable buttons */
+        header button,
+        header a {
+          position: relative;
+          z-index: 10;
+          pointer-events: auto !important;
+        }
+
         .blob-shape {
           transition: border-radius 0.8s ease-in-out, box-shadow 0.3s ease-in-out;
           will-change: border-radius;
