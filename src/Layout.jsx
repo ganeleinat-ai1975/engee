@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { createPageUrl } from "@/utils";
+import { base44 } from "@/api/base44Client";
 import { LanguageProvider, useLanguage, t } from "@/components/LanguageProvider";
 import { CartProvider, useCart } from "@/components/CartProvider";
 import {
