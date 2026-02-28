@@ -30,13 +30,7 @@ import { motion, AnimatePresence } from "framer-motion";
 // מסך פתיחה חדש
 function LoadingScreen({ siteSettings }) {
   return (
-    <motion.div 
-      className="fixed inset-0 z-50 flex items-center justify-center" 
-      style={{ backgroundColor: '#FDF6E3', pointerEvents: 'auto' }}
-      initial={{ opacity: 1 }}
-      exit={{ opacity: 0, pointerEvents: 'none' }}
-      transition={{ duration: 0.3 }}
-    >
+    <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ backgroundColor: '#FDF6E3' }}>
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -61,7 +55,7 @@ function LoadingScreen({ siteSettings }) {
           />
         </div>
       </motion.div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -378,14 +372,6 @@ function LayoutContent({ children, currentPageName, siteSettings }) {
           display: block;
         }
 
-        /* Fix for clickable buttons */
-        header button,
-        header a {
-          position: relative;
-          z-index: 10;
-          pointer-events: auto !important;
-        }
-
         .blob-shape {
           transition: border-radius 0.8s ease-in-out, box-shadow 0.3s ease-in-out;
           will-change: border-radius;
@@ -528,7 +514,7 @@ function LayoutContent({ children, currentPageName, siteSettings }) {
                 </DropdownMenu>
               </>
             ) : (
-              <Button variant="ghost" onClick={() => UserEntity.login()} className="text-gray-700 text-sm p-2 cursor-pointer z-10">
+              <Button variant="ghost" onClick={() => UserEntity.login()} className="text-gray-700 text-sm p-2">
                 {t('login', language)}
               </Button>
             )}
@@ -628,7 +614,7 @@ function LayoutContent({ children, currentPageName, siteSettings }) {
                         </DropdownMenuContent>
                     </DropdownMenu>
                 ) : (
-                    <Button variant="ghost" size="icon" onClick={() => UserEntity.login()} className="cursor-pointer z-10">
+                    <Button variant="ghost" size="icon" onClick={() => UserEntity.login()}>
                         <UserIcon className="w-5 h-5 text-gray-600" />
                     </Button>
                 )}
@@ -855,16 +841,14 @@ export default function Layout({ children, currentPageName }) {
   return (
     <LanguageProvider>
       <CartProvider>
-        <AnimatePresence mode="wait">
+        <AnimatePresence>
           {showLoadingScreen && (
-            <LoadingScreen key="loading-screen" siteSettings={siteSettings} />
+            <LoadingScreen siteSettings={siteSettings} />
           )}
         </AnimatePresence>
-        <div style={{ visibility: showLoadingScreen ? 'hidden' : 'visible' }}>
-          <LayoutContent currentPageName={currentPageName} siteSettings={siteSettings}>
-            {children}
-          </LayoutContent>
-        </div>
+        <LayoutContent currentPageName={currentPageName} siteSettings={siteSettings}>
+          {children}
+        </LayoutContent>
       </CartProvider>
     </LanguageProvider>
   )

@@ -47,37 +47,37 @@
  *
  * The mainPage value must match a key in the PAGES object exactly.
  */
-import About from './pages/About';
-import Admin from './pages/Admin';
-import Cart from './pages/Cart';
-import Checkout from './pages/Checkout';
-import Contact from './pages/Contact';
 import Home from './pages/Home';
-import OrderSuccess from './pages/OrderSuccess';
-import Orders from './pages/Orders';
-import Payment from './pages/Payment';
-import Product from './pages/Product';
 import Products from './pages/Products';
-import Profile from './pages/Profile';
+import About from './pages/About';
+import Contact from './pages/Contact';
+import Admin from './pages/Admin';
+import Product from './pages/Product';
+import Cart from './pages/Cart';
 import Wishlist from './pages/Wishlist';
+import Profile from './pages/Profile';
+import Orders from './pages/Orders';
+import Checkout from './pages/Checkout';
+import OrderSuccess from './pages/OrderSuccess';
+import Payment from './pages/Payment';
 import Workshop from './pages/Workshop';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
-    "About": About,
-    "Admin": Admin,
-    "Cart": Cart,
-    "Checkout": Checkout,
-    "Contact": Contact,
     "Home": Home,
-    "OrderSuccess": OrderSuccess,
-    "Orders": Orders,
-    "Payment": Payment,
-    "Product": Product,
     "Products": Products,
-    "Profile": Profile,
+    "About": About,
+    "Contact": Contact,
+    "Admin": Admin,
+    "Product": Product,
+    "Cart": Cart,
     "Wishlist": Wishlist,
+    "Profile": Profile,
+    "Orders": Orders,
+    "Checkout": Checkout,
+    "OrderSuccess": OrderSuccess,
+    "Payment": Payment,
     "Workshop": Workshop,
 }
 
