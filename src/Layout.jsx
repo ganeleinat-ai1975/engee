@@ -855,14 +855,16 @@ export default function Layout({ children, currentPageName }) {
   return (
     <LanguageProvider>
       <CartProvider>
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           {showLoadingScreen && (
-            <LoadingScreen siteSettings={siteSettings} />
+            <LoadingScreen key="loading-screen" siteSettings={siteSettings} />
           )}
         </AnimatePresence>
-        <LayoutContent currentPageName={currentPageName} siteSettings={siteSettings}>
-          {children}
-        </LayoutContent>
+        <div style={{ visibility: showLoadingScreen ? 'hidden' : 'visible' }}>
+          <LayoutContent currentPageName={currentPageName} siteSettings={siteSettings}>
+            {children}
+          </LayoutContent>
+        </div>
       </CartProvider>
     </LanguageProvider>
   )
