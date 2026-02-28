@@ -849,16 +849,14 @@ export default function Layout({ children, currentPageName }) {
   return (
     <LanguageProvider>
       <CartProvider>
-        <AnimatePresence mode="wait">
+        <AnimatePresence>
           {showLoadingScreen && (
-            <LoadingScreen key="loading" siteSettings={siteSettings} />
+            <LoadingScreen siteSettings={siteSettings} />
           )}
         </AnimatePresence>
-        {!showLoadingScreen && (
-          <LayoutContent currentPageName={currentPageName} siteSettings={siteSettings}>
-            {children}
-          </LayoutContent>
-        )}
+        <LayoutContent currentPageName={currentPageName} siteSettings={siteSettings}>
+          {children}
+        </LayoutContent>
       </CartProvider>
     </LanguageProvider>
   )
