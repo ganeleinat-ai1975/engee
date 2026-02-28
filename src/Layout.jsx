@@ -30,7 +30,13 @@ import { motion, AnimatePresence } from "framer-motion";
 // מסך פתיחה חדש
 function LoadingScreen({ siteSettings }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ backgroundColor: '#FDF6E3' }}>
+    <motion.div 
+      className="fixed inset-0 z-50 flex items-center justify-center" 
+      style={{ backgroundColor: '#FDF6E3', pointerEvents: 'auto' }}
+      initial={{ opacity: 1 }}
+      exit={{ opacity: 0, pointerEvents: 'none' }}
+      transition={{ duration: 0.3 }}
+    >
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -55,7 +61,7 @@ function LoadingScreen({ siteSettings }) {
           />
         </div>
       </motion.div>
-    </div>
+    </motion.div>
   );
 }
 
