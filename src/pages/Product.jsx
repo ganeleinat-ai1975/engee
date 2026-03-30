@@ -1,9 +1,10 @@
-
 import React, { useState, useEffect, useCallback } from "react";
 import { Product as ProductEntity } from "@/entities/Product";
 import { SiteSettings } from "@/entities/SiteSettings";
 import { WishlistItem } from "@/entities/WishlistItem";
 import { User } from "@/entities/User";
+import { Sale } from "@/entities/Sale";
+import { getSalePrice } from "@/lib/saleUtils";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label"; 
 import { toast } from "sonner";
@@ -29,7 +30,8 @@ export default function ProductPage() {
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [wishlistItemId, setWishlistItemId] = useState(null);
   const [isTogglingWishlist, setIsTogglingWishlist] = useState(false);
-  const [isLightboxOpen, setIsLightboxOpen] = useState(false); 
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [activeSale, setActiveSale] = useState(null);
 
   const getOptimizedUrl = (url, options = {}) => {
     if (!url || !url.includes('supabase.co')) return url;
@@ -127,8 +129,14 @@ export default function ProductPage() {
         // לא מציגים שגיאה למשתמש כי זה לא קריטי
       }
 
-      // The user object now comes from the useCart hook, so no need to fetch it here.
-      // Wishlist check can still be done based on the user object from the hook.
+      // Load active sale
+      try {
+        const sales = await Sale.filter({ is_active: true });
+        if (sales.length > 0) setActiveSale(sales[0]);
+      } catch (e) {
+        console.error("Failed to load active sale", e);
+      }
+
       if (user) {
         checkWishlistStatus(productId, user.email);
       }
@@ -143,8 +151,10 @@ export default function ProductPage() {
     loadProduct();
   }, [loadProduct]);
 
+  const salePrice = getSalePrice(product, activeSale);
+
   const calculateTotalPrice = () => {
-    const basePrice = product?.price || 0;
+    const basePrice = salePrice || product?.price || 0;
     const goldPlatingPrice = (goldPlating && siteSettings?.enable_gold_plating) ? (siteSettings?.gold_plating_price || 100) : 0;
     return (basePrice + goldPlatingPrice) * quantity;
   };
@@ -330,6 +340,14 @@ export default function ProductPage() {
               
               {/* הצגת מחיר כולל - מוצג תמיד */}
               <div className="mb-6 p-4 bg-accent/10 rounded-lg border-2 border-accent/20">
+                {salePrice !== null && (
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                      {language === 'he' ? 'במבצע' : 'SALE'}
+                    </span>
+                    <span className="text-lg text-gray-400 line-through">₪{product?.price?.toLocaleString()}</span>
+                  </div>
+                )}
                 <p className="text-3xl font-bold text-primary mb-2">
                   ₪{totalPrice.toLocaleString()}
                   {goldPlating && siteSettings?.enable_gold_plating && (
@@ -340,7 +358,7 @@ export default function ProductPage() {
                 </p>
                 {quantity > 1 && (
                   <p className="text-sm text-subtle">
-                    ₪{product?.price?.toLocaleString()} × {quantity} {goldPlating && siteSettings?.enable_gold_plating ? `+ ₪${(siteSettings?.gold_plating_price || 100) * quantity} ציפוי זהב` : ''}
+                    ₪{(salePrice || product?.price)?.toLocaleString()} × {quantity} {goldPlating && siteSettings?.enable_gold_plating ? `+ ₪${(siteSettings?.gold_plating_price || 100) * quantity} ציפוי זהב` : ''}
                   </p>
                 )}
               </div>

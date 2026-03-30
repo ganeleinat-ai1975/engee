@@ -1,5 +1,4 @@
-
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { useLanguage, t } from "@/components/LanguageProvider";
@@ -7,6 +6,8 @@ import { useCart } from "@/components/CartProvider";
 import { Button } from "@/components/ui/button";
 import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Sale } from "@/entities/Sale";
+import { getSalePrice } from "@/lib/saleUtils";
 
 export default function Cart() {
   const { language } = useLanguage();
@@ -21,6 +22,14 @@ export default function Cart() {
     user 
   } = useCart();
 
+  const [activeSale, setActiveSale] = useState(null);
+
+  useEffect(() => {
+    Sale.filter({ is_active: true }).then(sales => {
+      if (sales.length > 0) setActiveSale(sales[0]);
+    }).catch(() => {});
+  }, []);
+
   const handleUpdateQuantity = (item, newQuantity) => {
     if (newQuantity < 1) {
       removeFromCart(item.id);
@@ -32,7 +41,7 @@ export default function Cart() {
   const subtotal = cartItems.reduce((sum, item) => {
       const product = products[item.product_id];
       if (!product) return sum;
-      const basePrice = product.price || 0;
+      const basePrice = getSalePrice(product, activeSale) || product.price || 0;
       const goldPlatingPrice = item.gold_plating ? 100 : 0;
       return sum + (basePrice + goldPlatingPrice) * item.quantity;
   }, 0);
@@ -80,7 +89,8 @@ export default function Cart() {
                   if (!product) return null;
                   const imageUrl = product.images?.[0];
                   
-                  const basePrice = product.price || 0;
+                  const itemSalePrice = getSalePrice(product, activeSale);
+                  const basePrice = itemSalePrice || product.price || 0;
                   const goldPlatingPrice = item.gold_plating ? 100 : 0;
                   const itemPrice = basePrice + goldPlatingPrice;
                   
@@ -100,6 +110,9 @@ export default function Cart() {
                           )}
                           {item.gold_plating && (
                             <p className="text-sm text-amber-600 font-medium">{language === 'he' ? 'ציפוי זהב (+₪100)' : 'Gold plating (+₪100)'}</p>
+                          )}
+                          {itemSalePrice !== null && (
+                            <span className="text-gray-400 line-through text-sm">₪{product.price?.toLocaleString()}</span>
                           )}
                           <p className="text-amber-800 font-semibold">₪{itemPrice.toLocaleString()}</p>
                         </div>

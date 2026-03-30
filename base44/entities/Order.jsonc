@@ -1,0 +1,173 @@
+{
+  "name": "Order",
+  "type": "object",
+  "properties": {
+    "order_number": {
+      "type": "number",
+      "description": "\u05de\u05e1\u05e4\u05e8 \u05d4\u05d6\u05de\u05e0\u05d4 \u05e2\u05d5\u05e7\u05d1 (\u05de\u05ea\u05d7\u05d9\u05dc \u05de-1000)"
+    },
+    "user_email": {
+      "type": "string",
+      "description": "\u05d0\u05d9\u05de\u05d9\u05d9\u05dc \u05d4\u05dc\u05e7\u05d5\u05d7"
+    },
+    "guest_id": {
+      "type": "string",
+      "description": "\u05de\u05d6\u05d4\u05d4 \u05d9\u05d9\u05d7\u05d5\u05d3\u05d9 \u05dc\u05d0\u05d5\u05e8\u05d7"
+    },
+    "customer_name": {
+      "type": "string",
+      "description": "\u05e9\u05dd \u05d4\u05dc\u05e7\u05d5\u05d7"
+    },
+    "customer_phone": {
+      "type": "string",
+      "description": "\u05d8\u05dc\u05e4\u05d5\u05df \u05d4\u05dc\u05e7\u05d5\u05d7"
+    },
+    "shipping_address": {
+      "type": "object",
+      "description": "\u05db\u05ea\u05d5\u05d1\u05ea \u05de\u05e9\u05dc\u05d5\u05d7",
+      "properties": {
+        "street": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "postal_code": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        }
+      }
+    },
+    "shipping_method": {
+      "type": "string",
+      "enum": [
+        "delivery",
+        "pickup"
+      ],
+      "default": "delivery",
+      "description": "\u05e9\u05d9\u05d8\u05ea \u05de\u05e9\u05dc\u05d5\u05d7 - \u05e8\u05d2\u05d9\u05dc \u05d0\u05d5 \u05d0\u05d9\u05e1\u05d5\u05e3 \u05e2\u05e6\u05de\u05d9"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "product_id": {
+            "type": "string"
+          },
+          "product_name": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number"
+          },
+          "price": {
+            "type": "number"
+          },
+          "size": {
+            "type": "string"
+          },
+          "gold_plating": {
+            "type": "boolean"
+          }
+        }
+      },
+      "description": "\u05e4\u05e8\u05d9\u05d8\u05d9 \u05d4\u05d4\u05d6\u05de\u05e0\u05d4"
+    },
+    "subtotal": {
+      "type": "number",
+      "description": "\u05e1\u05db\u05d5\u05dd \u05d1\u05d9\u05e0\u05d9\u05d9\u05dd"
+    },
+    "shipping_cost": {
+      "type": "number",
+      "default": 0,
+      "description": "\u05e2\u05dc\u05d5\u05ea \u05de\u05e9\u05dc\u05d5\u05d7"
+    },
+    "coupon_code": {
+      "type": "string",
+      "description": "\u05e7\u05d5\u05d3 \u05e7\u05d5\u05e4\u05d5\u05df \u05e9\u05d4\u05d5\u05d6\u05df"
+    },
+    "coupon_discount": {
+      "type": "number",
+      "description": "\u05e1\u05db\u05d5\u05dd \u05d4\u05d4\u05e0\u05d7\u05d4 \u05de\u05d4\u05e7\u05d5\u05e4\u05d5\u05df"
+    },
+    "sale_discount": {
+      "type": "number",
+      "description": "\u05e1\u05db\u05d5\u05dd \u05d4\u05d4\u05e0\u05d7\u05d4 \u05de\u05d4\u05de\u05d1\u05e6\u05e2"
+    },
+    "total_amount": {
+      "type": "number",
+      "description": "\u05e1\u05db\u05d5\u05dd \u05db\u05d5\u05dc\u05dc"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "paid",
+        "processing",
+        "shipped",
+        "delivered",
+        "cancelled"
+      ],
+      "default": "pending",
+      "description": "\u05e1\u05d8\u05d8\u05d5\u05e1 \u05d4\u05d4\u05d6\u05de\u05e0\u05d4"
+    },
+    "payment_intent_id": {
+      "type": "string",
+      "description": "\u05de\u05d6\u05d4\u05d4 \u05ea\u05e9\u05dc\u05d5\u05dd Cardcom (LowProfileCode)"
+    },
+    "payment_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "succeeded",
+        "failed",
+        "cancelled"
+      ],
+      "default": "pending",
+      "description": "\u05e1\u05d8\u05d8\u05d5\u05e1 \u05d4\u05ea\u05e9\u05dc\u05d5\u05dd"
+    },
+    "receipt_number": {
+      "type": "string",
+      "description": "\u05de\u05e1\u05e4\u05e8 \u05e7\u05d1\u05dc\u05d4 \u05de\u05e7\u05d0\u05e8\u05d3\u05e7\u05d5\u05dd"
+    },
+    "receipt_pdf_url": {
+      "type": "string",
+      "description": "\u05e7\u05d9\u05e9\u05d5\u05e8 \u05dc\u05e7\u05d1\u05dc\u05d4 \u05d1\u05e4\u05d5\u05e8\u05de\u05d8 PDF"
+    },
+    "notes": {
+      "type": "string",
+      "description": "\u05d4\u05e2\u05e8\u05d5\u05ea \u05dc\u05d4\u05d6\u05de\u05e0\u05d4"
+    },
+    "language": {
+      "type": "string",
+      "enum": [
+        "he",
+        "en"
+      ],
+      "default": "he",
+      "description": "\u05e9\u05e4\u05ea \u05d4\u05d4\u05d6\u05de\u05e0\u05d4"
+    },
+    "email_sent": {
+      "type": "boolean",
+      "default": false,
+      "description": "\u05d4\u05d0\u05dd \u05de\u05d9\u05d9\u05dc \u05d0\u05d9\u05e9\u05d5\u05e8 \u05e0\u05e9\u05dc\u05d7 \u05dc\u05dc\u05e7\u05d5\u05d7"
+    }
+  },
+  "required": [
+    "user_email",
+    "customer_name",
+    "items",
+    "total_amount"
+  ],
+  "access": {
+    "list": "record.user_email == user.email || user.role == 'admin'",
+    "get": true,
+    "create": true,
+    "update": true,
+    "delete": "user.role == 'admin'"
+  },
+  "rls": {}
+}

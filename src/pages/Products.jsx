@@ -1,9 +1,9 @@
-
 import React, { useState, useEffect, useCallback } from "react";
 import { Product } from "@/entities/Product";
 import { SiteSettings } from "@/entities/SiteSettings";
 import { WishlistItem } from "@/entities/WishlistItem";
 import { User } from "@/entities/User";
+import { Sale } from "@/entities/Sale";
 import { useLanguage, t } from "@/components/LanguageProvider";
 import { toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -20,6 +20,7 @@ export default function Products() {
   const [wishlist, setWishlist] = useState([]);
   const [user, setUser] = useState(null);
   const [isTogglingWishlist, setIsTogglingWishlist] = useState(false);
+  const [activeSale, setActiveSale] = useState(null);
 
   const loadProducts = useCallback(async () => {
     try {
@@ -72,6 +73,12 @@ export default function Products() {
   const loadInitialData = useCallback(async () => {
     await loadProducts();
     await loadSiteSettings();
+    try {
+      const sales = await Sale.filter({ is_active: true });
+      if (sales.length > 0) setActiveSale(sales[0]);
+    } catch(e) {
+      console.error("Failed to load active sale", e);
+    }
     try {
         const currentUser = await User.me();
         setUser(currentUser);
@@ -209,6 +216,7 @@ export default function Products() {
                 wishlist={wishlist}
                 onToggleWishlist={handleToggleWishlist}
                 isTogglingWishlist={isTogglingWishlist}
+                activeSale={activeSale}
               />
             ))
           )}

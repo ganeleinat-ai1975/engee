@@ -1,0 +1,78 @@
+{
+  "name": "Sale",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "\u05e9\u05dd \u05d4\u05de\u05d1\u05e6\u05e2"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": false,
+      "description": "\u05d4\u05d0\u05dd \u05d4\u05de\u05d1\u05e6\u05e2 \u05e4\u05e2\u05d9\u05dc"
+    },
+    "discount_type": {
+      "type": "string",
+      "enum": [
+        "percentage",
+        "fixed"
+      ],
+      "description": "\u05e1\u05d5\u05d2 \u05d4\u05d4\u05e0\u05d7\u05d4 \u05d4\u05db\u05dc\u05dc\u05d9\u05ea"
+    },
+    "discount_value": {
+      "type": "number",
+      "description": "\u05e2\u05e8\u05da \u05d4\u05d4\u05e0\u05d7\u05d4 \u05d4\u05db\u05dc\u05dc\u05d9\u05ea"
+    },
+    "scope": {
+      "type": "string",
+      "enum": [
+        "all",
+        "specific",
+        "all_plus_specific"
+      ],
+      "description": "\u05db\u05d9\u05e1\u05d5\u05d9 \u05d4\u05de\u05d1\u05e6\u05e2"
+    },
+    "product_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "\u05de\u05d5\u05e6\u05e8\u05d9\u05dd \u05e1\u05e4\u05e6\u05d9\u05e4\u05d9\u05d9\u05dd"
+    },
+    "extra_discount_type": {
+      "type": "string",
+      "enum": [
+        "percentage",
+        "fixed"
+      ],
+      "description": "\u05e1\u05d5\u05d2 \u05d4\u05e0\u05d7\u05d4 \u05e0\u05d5\u05e1\u05e4\u05ea (\u05e8\u05e7 \u05d1-all_plus_specific)"
+    },
+    "extra_discount_value": {
+      "type": "number",
+      "description": "\u05e2\u05e8\u05da \u05d4\u05d4\u05e0\u05d7\u05d4 \u05d4\u05e0\u05d5\u05e1\u05e4\u05ea"
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date",
+      "description": "\u05ea\u05d0\u05e8\u05d9\u05da \u05d4\u05ea\u05d7\u05dc\u05d4"
+    },
+    "end_date": {
+      "type": "string",
+      "format": "date",
+      "description": "\u05ea\u05d0\u05e8\u05d9\u05da \u05e1\u05d9\u05d5\u05dd"
+    }
+  },
+  "required": [
+    "name",
+    "discount_type",
+    "discount_value",
+    "scope"
+  ],
+  "access": {
+    "list": true,
+    "get": true,
+    "create": "user.role == 'admin'",
+    "update": "user.role == 'admin'",
+    "delete": "user.role == 'admin'"
+  }
+}

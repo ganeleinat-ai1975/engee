@@ -1,9 +1,9 @@
-
 import React, { useState, useEffect, useCallback } from "react";
 import { Product } from "@/entities/Product";
 import { SiteSettings } from "@/entities/SiteSettings";
 import { WishlistItem } from "@/entities/WishlistItem";
 import { User } from "@/entities/User";
+import { Sale } from "@/entities/Sale";
 import { useLanguage, t } from "@/components/LanguageProvider";
 import { toast } from "sonner";
 
@@ -24,6 +24,7 @@ export default function Home() {
   const [wishlist, setWishlist] = useState([]);
   const [user, setUser] = useState(null);
   const [isTogglingWishlist, setIsTogglingWishlist] = useState(false);
+  const [activeSale, setActiveSale] = useState(null);
 
   const loadFeaturedProducts = useCallback(async () => {
     setIsLoadingProducts(true);
@@ -63,7 +64,10 @@ export default function Home() {
   const loadInitialData = useCallback(async () => {
     await Promise.all([
       loadFeaturedProducts(),
-      loadSiteSettings()
+      loadSiteSettings(),
+      Sale.filter({ is_active: true }).then(sales => {
+        if (sales.length > 0) setActiveSale(sales[0]);
+      }).catch(e => console.error("Failed to load sale", e))
     ]);
     
     try {
@@ -178,6 +182,7 @@ export default function Home() {
         wishlist={wishlist}
         onToggleWishlist={handleToggleWishlist}
         isTogglingWishlist={isTogglingWishlist}
+        activeSale={activeSale}
        />
       <FAQ siteSettings={siteSettings} />
       

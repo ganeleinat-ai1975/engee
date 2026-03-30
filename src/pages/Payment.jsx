@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { createPageUrl } from "@/utils";
@@ -15,6 +14,8 @@ import { toast } from "sonner";
 import { CreditCard, Lock, Truck, Shield } from "lucide-react";
 import { SiteSettings } from "@/entities/SiteSettings";
 import { Coupon } from "@/entities/Coupon";
+import { Sale } from "@/entities/Sale";
+import { getSalePrice } from "@/lib/saleUtils";
 import { processOrder } from "@/functions/processOrder"; // Changed import to processOrder
 
 export default function Payment() {
@@ -39,6 +40,7 @@ export default function Payment() {
   const [isApplyingCoupon, setIsApplyingCoupon] = useState(false);
   const [couponError, setCouponError] = useState('');
 
+  const [activeSale, setActiveSale] = useState(null);
   const [subtotal, setSubtotal] = useState(0);
   const [shippingCost, setShippingCost] = useState(0);
   const [total, setTotal] = useState(0);
@@ -70,6 +72,9 @@ export default function Payment() {
       }));
     }
     loadSiteSettings();
+    Sale.filter({ is_active: true }).then(sales => {
+      if (sales.length > 0) setActiveSale(sales[0]);
+    }).catch(() => {});
   }, [user, cartItems, isCartLoading, navigate, language]);
 
   const loadSiteSettings = async () => {
@@ -89,7 +94,7 @@ export default function Payment() {
     const newSubtotal = cartItems.reduce((sum, item) => {
       const product = products[item.product_id];
       if (!product) return sum;
-      const basePrice = product.price || 0;
+      const basePrice = getSalePrice(product, activeSale) || product.price || 0;
       const goldPlatingPrice = item.gold_plating ? 100 : 0;
       return sum + (basePrice + goldPlatingPrice) * item.quantity;
     }, 0);
@@ -117,7 +122,7 @@ export default function Payment() {
       setShippingCost(calculatedShipping);
       setTotal(newSubtotal - discount + calculatedShipping);
     }
-  }, [cartItems, products, siteSettings, appliedCoupon, shippingMethod]);
+  }, [cartItems, products, siteSettings, appliedCoupon, shippingMethod, activeSale]);
 
   const handleApplyCoupon = async () => {
     if (!couponCode.trim()) return;
@@ -249,7 +254,8 @@ export default function Payment() {
         const product = products[item.product_id];
         if (!product) return null;
         
-        const basePrice = product.price || 0;
+        const saleItemPrice = getSalePrice(product, activeSale);
+        const basePrice = saleItemPrice || product.price || 0;
         const goldPlatingPrice = item.gold_plating ? 100 : 0;
         
         return {
@@ -276,6 +282,12 @@ export default function Payment() {
         shipping_cost: shippingCost,
         coupon_code: appliedCoupon ? appliedCoupon.code : null,
         coupon_discount: couponDiscount,
+        sale_discount: activeSale ? cartItems.reduce((sum, item) => {
+          const product = products[item.product_id];
+          if (!product) return sum;
+          const sp = getSalePrice(product, activeSale);
+          return sp !== null ? sum + (product.price - sp) * item.quantity : sum;
+        }, 0) : 0,
         total_amount: total,
         status: 'pending', // Initial status before payment confirmation
         notes: formData.notes,
@@ -480,7 +492,8 @@ export default function Payment() {
                   const product = products[item.product_id];
                   if (!product) return null;
                   
-                  const basePrice = product.price || 0;
+                  const itemSalePrice = getSalePrice(product, activeSale);
+                  const basePrice = itemSalePrice || product.price || 0;
                   const goldPlatingPrice = item.gold_plating ? 100 : 0;
                   const itemPrice = basePrice + goldPlatingPrice;
                   

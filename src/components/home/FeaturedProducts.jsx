@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
@@ -9,7 +8,7 @@ import { motion } from "framer-motion";
 import { Skeleton } from "@/components/ui/skeleton";
 import ProductCard from "@/components/ProductCard";
 
-export default function FeaturedProducts({ products, isLoading, siteSettings, wishlist, onToggleWishlist, isTogglingWishlist }) {
+export default function FeaturedProducts({ products, isLoading, siteSettings, wishlist, onToggleWishlist, isTogglingWishlist, activeSale }) {
   const { language } = useLanguage();
 
   const title = language === 'he' ?
@@ -64,6 +63,7 @@ export default function FeaturedProducts({ products, isLoading, siteSettings, wi
                 wishlist={wishlist}
                 onToggleWishlist={onToggleWishlist}
                 isTogglingWishlist={isTogglingWishlist}
+                activeSale={activeSale}
               />
             ))
           )}

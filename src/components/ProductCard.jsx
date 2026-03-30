@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
@@ -6,8 +5,9 @@ import { useLanguage } from "@/components/LanguageProvider";
 import { Button } from "@/components/ui/button";
 import { Heart } from "lucide-react";
 import { motion } from "framer-motion";
+import { getSalePrice } from "@/lib/saleUtils";
 
-export default function ProductCard({ product, wishlist = [], onToggleWishlist, isTogglingWishlist }) {
+export default function ProductCard({ product, wishlist = [], onToggleWishlist, isTogglingWishlist, activeSale }) {
   const { language } = useLanguage();
   
   // Safety checks to prevent errors
@@ -23,6 +23,7 @@ export default function ProductCard({ product, wishlist = [], onToggleWishlist, 
     
   const imageUrl = Array.isArray(product.images) && product.images.length > 0 ? product.images[0] : null;
   const isSoldOut = (product.stock_quantity || 0) <= 0;
+  const salePrice = getSalePrice(product, activeSale);
 
   const getOptimizedUrl = (url, options = {}) => {
     if (!url || typeof url !== 'string' || !url.includes('supabase.co')) return url;
@@ -54,6 +55,11 @@ export default function ProductCard({ product, wishlist = [], onToggleWishlist, 
             {language === 'he' ? 'אזל' : 'Sold out'}
           </div>
         )}
+        {!isSoldOut && salePrice !== null && (
+          <div className="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full z-10">
+            {language === 'he' ? 'במבצע' : 'SALE'}
+          </div>
+        )}
         <Link to={createPageUrl("Product") + `?id=${product.id}`}>
           {imageUrl ? (
             <img
@@ -82,13 +88,24 @@ export default function ProductCard({ product, wishlist = [], onToggleWishlist, 
                     {productName}
                   </Link>
                 </h3>
-                <p className="text-main font-bold text-lg price-text">
-                  {typeof product.price === 'number' ? (
-                    language === 'he' ? `₪${product.price.toLocaleString()}` : `${product.price.toLocaleString()} NIS`
-                  ) : (
-                    language === 'he' ? 'ללא מחיר' : 'No price'
-                  )}
-                </p>
+                {salePrice !== null ? (
+                  <div className="price-text">
+                    <span className="text-gray-400 line-through text-sm">
+                      ₪{product.price.toLocaleString()}
+                    </span>
+                    <p className="text-red-600 font-bold text-lg">
+                      {language === 'he' ? `₪${salePrice.toLocaleString()}` : `${salePrice.toLocaleString()} NIS`}
+                    </p>
+                  </div>
+                ) : (
+                  <p className="text-main font-bold text-lg price-text">
+                    {typeof product.price === 'number' ? (
+                      language === 'he' ? `₪${product.price.toLocaleString()}` : `${product.price.toLocaleString()} NIS`
+                    ) : (
+                      language === 'he' ? 'ללא מחיר' : 'No price'
+                    )}
+                  </p>
+                )}
             </div>
             <Button
               variant="ghost"
