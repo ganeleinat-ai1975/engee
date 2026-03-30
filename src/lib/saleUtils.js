@@ -10,7 +10,11 @@ export function getSalePrice(product, activeSale) {
 
   const now = new Date();
   if (activeSale.start_date && new Date(activeSale.start_date) > now) return null;
-  if (activeSale.end_date && new Date(activeSale.end_date) < now) return null;
+  if (activeSale.end_date) {
+    const endDate = new Date(activeSale.end_date);
+    endDate.setHours(23, 59, 59, 999);
+    if (endDate < now) return null;
+  }
 
   const isSpecific = activeSale.product_ids?.includes(product.id);
 
