@@ -7,6 +7,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
+import PrivacyPolicyPage from './pages/PrivacyPolicy';
+import AccessibilityStatementPage from './pages/AccessibilityStatement';
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
@@ -58,6 +60,16 @@ const AuthenticatedApp = () => {
           }
         />
       ))}
+      <Route path="/privacy-policy" element={
+        <LayoutWrapper currentPageName="PrivacyPolicy">
+          <PrivacyPolicyPage />
+        </LayoutWrapper>
+      } />
+      <Route path="/accessibility" element={
+        <LayoutWrapper currentPageName="AccessibilityStatement">
+          <AccessibilityStatementPage />
+        </LayoutWrapper>
+      } />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );

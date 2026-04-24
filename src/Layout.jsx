@@ -20,6 +20,7 @@ import { User as UserEntity } from "@/entities/User";
 import { SiteSettings } from "@/entities/SiteSettings";
 import { Toaster } from "@/components/ui/sonner";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
+import AccessibilityWidget from "@/components/AccessibilityWidget";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -434,7 +435,7 @@ function LayoutContent({ children, currentPageName, siteSettings }) {
       )}
 
       {/* --- Desktop Header --- */}
-                  <header className="hidden md:flex bg-background w-full items-center justify-between px-4 py-2 h-auto">
+                  <header className="hidden md:flex bg-background w-full items-center justify-between px-4 py-2 h-auto" role="banner">
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(true)}>
               <Menu className="w-6 h-6 text-main" />
@@ -541,7 +542,7 @@ function LayoutContent({ children, currentPageName, siteSettings }) {
       </header>
 
       {/* --- Mobile Header --- */}
-                  <header className="md:hidden bg-background w-full">
+                  <header className="md:hidden bg-background w-full" role="banner">
         <div className="flex justify-center items-center h-auto py-0">
            <Link to={createPageUrl("Home")}>
               {siteSettings?.logo_url ? (
@@ -702,9 +703,9 @@ function LayoutContent({ children, currentPageName, siteSettings }) {
         )}
       </AnimatePresence>
 
-      <main>{children}</main>
+      <main role="main">{children}</main>
 
-      <footer className="bg-secondary text-white">
+      <footer className="bg-secondary text-white" role="contentinfo">
         <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
@@ -793,12 +794,22 @@ function LayoutContent({ children, currentPageName, siteSettings }) {
             </div>
           </div>
           <div className="border-t border-primary/20 mt-8 pt-8 text-center text-white">
+            <div className="flex justify-center gap-4 mb-4 flex-wrap">
+              <Link to="/privacy-policy" className="text-white hover:text-accent transition-colors text-sm">
+                {language === 'he' ? 'מדיניות פרטיות' : 'Privacy Policy'}
+              </Link>
+              <span className="text-white/50">|</span>
+              <Link to="/accessibility" className="text-white hover:text-accent transition-colors text-sm">
+                {language === 'he' ? 'הצהרת נגישות' : 'Accessibility'}
+              </Link>
+            </div>
             <p className="text-white">&copy; {new Date().getFullYear()} {siteName}. {t('allRightsReserved', language)}.</p>
           </div>
         </div>
       </footer>
       
       <CookieConsentBanner />
+      <AccessibilityWidget />
     </div>
   );
 }
