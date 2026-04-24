@@ -133,12 +133,12 @@ export default function AccessibilityWidget() {
       {/* Floating accessibility button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-20 z-50 w-10 h-10 flex items-center justify-center focus:outline-none transition-opacity opacity-60 hover:opacity-100"
-        style={{ [isHe ? 'left' : 'right']: '14px' }}
+        className="fixed bottom-20 z-50 w-10 h-10 rounded-full flex items-center justify-center focus:outline-none transition-opacity opacity-70 hover:opacity-100"
+        style={{ right: '14px', border: '1.5px solid #B8860B', backgroundColor: 'rgba(253,246,227,0.85)' }}
         aria-label={isHe ? 'פתיחת תפריט נגישות' : 'Open accessibility menu'}
         title={isHe ? 'נגישות' : 'Accessibility'}
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#B8860B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B8860B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <circle cx="12" cy="4" r="1.5"/>
           <path d="M7 8h10"/>
           <path d="M12 8v4"/>
@@ -150,8 +150,7 @@ export default function AccessibilityWidget() {
       {isOpen && (
         <div
           className="fixed bottom-32 z-50 w-64 rounded-2xl shadow-xl overflow-hidden"
-          style={{ border: '1px solid #D4AF37', backgroundColor: '#FDF6E3' }}
-          style={{ [isHe ? 'left' : 'right']: '16px' }}
+          style={{ border: '1px solid #D4AF37', backgroundColor: '#FDF6E3', right: '14px' }}
           dir={isHe ? 'rtl' : 'ltr'}
           role="dialog"
           aria-label={isHe ? 'הגדרות נגישות' : 'Accessibility settings'}
