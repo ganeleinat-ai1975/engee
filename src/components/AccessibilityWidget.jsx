@@ -133,12 +133,12 @@ export default function AccessibilityWidget() {
       {/* Floating accessibility button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-20 z-50 w-12 h-12 rounded-full bg-blue-700 text-white shadow-lg flex items-center justify-center hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-colors"
-        style={{ [isHe ? 'left' : 'right']: '16px' }}
+        className="fixed bottom-20 z-50 w-10 h-10 flex items-center justify-center focus:outline-none transition-opacity opacity-60 hover:opacity-100"
+        style={{ [isHe ? 'left' : 'right']: '14px' }}
         aria-label={isHe ? 'פתיחת תפריט נגישות' : 'Open accessibility menu'}
         title={isHe ? 'נגישות' : 'Accessibility'}
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#B8860B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <circle cx="12" cy="4" r="1.5"/>
           <path d="M7 8h10"/>
           <path d="M12 8v4"/>
@@ -149,35 +149,38 @@ export default function AccessibilityWidget() {
       {/* Panel */}
       {isOpen && (
         <div
-          className="fixed bottom-36 z-50 w-72 bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden"
+          className="fixed bottom-32 z-50 w-64 rounded-2xl shadow-xl overflow-hidden"
+          style={{ border: '1px solid #D4AF37', backgroundColor: '#FDF6E3' }}
           style={{ [isHe ? 'left' : 'right']: '16px' }}
           dir={isHe ? 'rtl' : 'ltr'}
           role="dialog"
           aria-label={isHe ? 'הגדרות נגישות' : 'Accessibility settings'}
         >
           {/* Header */}
-          <div className="flex items-center justify-between p-4 bg-blue-700 text-white">
-            <h3 className="font-bold text-lg">{isHe ? 'נגישות' : 'Accessibility'}</h3>
+          <div className="flex items-center justify-between p-4 border-b" style={{ backgroundColor: '#FDF6E3' }}>
+            <h3 className="font-bold text-lg" style={{ color: '#2D1810' }}>{isHe ? 'נגישות' : 'Accessibility'}</h3>
             <button
               onClick={() => setIsOpen(false)}
               aria-label={isHe ? 'סגירה' : 'Close'}
-              className="hover:bg-blue-600 rounded-full p-1"
+              className="rounded-full p-1 hover:opacity-70"
+              style={{ color: '#2D1810' }}
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
           {/* Actions */}
-          <div className="p-3 space-y-2">
+          <div className="p-3 space-y-1.5" style={{ backgroundColor: '#FDF6E3' }}>
             {actions.map((action, i) => (
               <button
                 key={i}
                 onClick={action.onClick}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                  action.active
-                    ? 'bg-blue-100 text-blue-800 border border-blue-300'
-                    : 'bg-gray-50 text-gray-700 hover:bg-gray-100 border border-transparent'
-                }`}
+                className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors"
+                style={{
+                  backgroundColor: action.active ? '#F5E6A8' : 'transparent',
+                  color: '#2D1810',
+                  border: action.active ? '1px solid #D4AF37' : '1px solid transparent',
+                }}
                 aria-pressed={action.active}
               >
                 {action.icon}
@@ -188,7 +191,8 @@ export default function AccessibilityWidget() {
             {/* Reset */}
             <button
               onClick={resetAll}
-              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium bg-red-50 text-red-700 hover:bg-red-100 border border-transparent"
+              className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors border border-transparent"
+              style={{ color: '#B8860B' }}
             >
               <RotateCcw className="w-5 h-5" />
               <span>{isHe ? 'איפוס הגדרות' : 'Reset All'}</span>
