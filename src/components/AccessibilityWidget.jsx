@@ -76,7 +76,7 @@ export default function AccessibilityWidget() {
           onClick={() => setIsOpen(true)}
           className="fixed z-50 flex items-center justify-center"
           style={{
-            right: '-6px',
+            right: '-14px',
             top: '50%',
             transform: 'translateY(-50%)',
             width: '28px',
