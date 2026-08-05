@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { base44 } from "@/api/base44Client";
 import { LanguageProvider, useLanguage, t } from "@/components/LanguageProvider";
@@ -155,14 +155,18 @@ function LayoutContent({ children, currentPageName, siteSettings }) {
     }
   };
 
+  const navigate = useNavigate();
+  
   const NavLink = ({ to, children }) => (
-    <Link
-      to={to}
-      className="text-lg text-main transition-none font-normal block py-3"
-      onClick={() => setIsMenuOpen(false)}
+    <button
+      className="text-lg text-main transition-none font-normal block py-3 w-full text-start bg-transparent border-none cursor-pointer p-0"
+      onClick={() => {
+        setIsMenuOpen(false);
+        navigate(to);
+      }}
     >
       {children}
-    </Link>
+    </button>
   );
 
   const siteName = language === 'he' ?
