@@ -454,7 +454,7 @@ function LayoutContent({ children, currentPageName, siteSettings }) {
           </div>
 
           <div className="flex-1 flex justify-center">
-            <Link to={createPageUrl("Home")}>
+            <Link to="/">
               {siteSettings?.logo_url ? (
                 <>
                   <img
@@ -539,7 +539,7 @@ function LayoutContent({ children, currentPageName, siteSettings }) {
       {/* --- Mobile Header --- */}
                   <header className="md:hidden bg-background w-full" role="banner">
         <div className="flex justify-center items-center h-auto py-0">
-           <Link to={createPageUrl("Home")}>
+           <Link to="/">
               {siteSettings?.logo_url ? (
                 <>
                   <img

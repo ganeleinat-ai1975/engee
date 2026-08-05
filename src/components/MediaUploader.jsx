@@ -60,7 +60,13 @@ export default function MediaUploader({ onFileSelect, currentUrl, accept = "imag
                 </Button>
                 {currentUrl && (
                     <a href={currentUrl} target="_blank" rel="noopener noreferrer">
-                        {accept.startsWith('image/') ? (
+                        {/\.(mp4|webm|ogg|mov|m4v)(\?|$)/i.test(currentUrl) ? (
+                            <video
+                                src={currentUrl}
+                                className="h-12 w-12 object-cover rounded border"
+                                muted
+                            />
+                        ) : accept.startsWith('image/') ? (
                             <img
                                 src={currentUrl}
                                 alt="תצוגה מקדימה"

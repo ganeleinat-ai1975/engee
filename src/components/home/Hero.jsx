@@ -22,6 +22,8 @@ export default function Hero({ siteSettings, isLoading }) {
     return urlObj.toString();
   };
 
+  const isVideo = (url) => /\.(mp4|webm|ogg|mov|m4v)(\?|$)/i.test(url || '');
+
   const heroImages = [
     siteSettings?.hero_image_url,
     siteSettings?.hero_image_url_2,
@@ -76,21 +78,36 @@ export default function Hero({ siteSettings, isLoading }) {
         <div className="absolute inset-0 z-0">
           {heroImages.length > 0 ? (
             heroImages.map((image, index) => (
-              <motion.img
-                key={index}
-                src={getOptimizedUrl(image, { width: 1200 })}
-                srcSet={`${getOptimizedUrl(image, { width: 640 })} 640w,
-                         ${getOptimizedUrl(image, { width: 1200 })} 1200w,
-                         ${getOptimizedUrl(image, { width: 1920 })} 1920w`}
-                sizes="100vw"
-                alt="Luxury Jewelry"
-                className="absolute inset-0 w-full h-full object-cover"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: index === currentImageIndex ? 1 : 0 }}
-                transition={{ duration: 0.8, ease: "easeInOut" }}
-                loading={index === 0 ? "eager" : "lazy"}
-                fetchpriority={index === 0 ? "high" : "auto"}
-              />
+              isVideo(image) ? (
+                <motion.video
+                  key={index}
+                  src={image}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: index === currentImageIndex ? 1 : 0 }}
+                  transition={{ duration: 0.8, ease: "easeInOut" }}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                />
+              ) : (
+                <motion.img
+                  key={index}
+                  src={getOptimizedUrl(image, { width: 1200 })}
+                  srcSet={`${getOptimizedUrl(image, { width: 640 })} 640w,
+                           ${getOptimizedUrl(image, { width: 1200 })} 1200w,
+                           ${getOptimizedUrl(image, { width: 1920 })} 1920w`}
+                  sizes="100vw"
+                  alt="Luxury Jewelry"
+                  className="absolute inset-0 w-full h-full object-cover"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: index === currentImageIndex ? 1 : 0 }}
+                  transition={{ duration: 0.8, ease: "easeInOut" }}
+                  loading={index === 0 ? "eager" : "lazy"}
+                  fetchpriority={index === 0 ? "high" : "auto"}
+                />
+              )
             ))
           ) : (
             <div 

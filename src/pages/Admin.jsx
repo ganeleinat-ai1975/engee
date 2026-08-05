@@ -769,38 +769,38 @@ export default function Admin() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <MediaUploader
-                  label="תמונת רקע דף הבית #1"
+                  label="תמונה או סרטון רקע דף הבית #1"
                   onFileSelect={(url) => handleInputChange('hero_image_url', url)}
                   currentUrl={siteSettings?.hero_image_url}
-                  accept="image/*"
+                  accept="image/*,video/*"
                 />
 
                 <MediaUploader
-                  label="תמונת רקע דף הבית #2"
+                  label="תמונה או סרטון רקע דף הבית #2"
                   onFileSelect={(url) => handleInputChange('hero_image_url_2', url)}
                   currentUrl={siteSettings?.hero_image_url_2}
-                  accept="image/*"
+                  accept="image/*,video/*"
                 />
 
                 <MediaUploader
-                  label="תמונת רקע דף הבית #3"
+                  label="תמונה או סרטון רקע דף הבית #3"
                   onFileSelect={(url) => handleInputChange('hero_image_url_3', url)}
                   currentUrl={siteSettings?.hero_image_url_3}
-                  accept="image/*"
+                  accept="image/*,video/*"
                 />
 
                 <MediaUploader
-                  label="תמונת רקע דף הבית #4"
+                  label="תמונה או סרטון רקע דף הבית #4"
                   onFileSelect={(url) => handleInputChange('hero_image_url_4', url)}
                   currentUrl={siteSettings?.hero_image_url_4}
-                  accept="image/*"
+                  accept="image/*,video/*"
                 />
 
                 <MediaUploader
-                  label="תמונת רקע דף הבית #5"
+                  label="תמונה או סרטון רקע דף הבית #5"
                   onFileSelect={(url) => handleInputChange('hero_image_url_5', url)}
                   currentUrl={siteSettings?.hero_image_url_5}
-                  accept="image/*"
+                  accept="image/*,video/*"
                 />
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
