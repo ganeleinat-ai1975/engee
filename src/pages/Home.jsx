@@ -83,52 +83,6 @@ export default function Home() {
   }, [loadFeaturedProducts, loadSiteSettings, loadWishlist]);
 
   useEffect(() => {
-    // יצירת מסך פתיחה - רק בטעינה ראשונית של דף הבית
-    if (typeof window !== 'undefined') {
-      // בדיקה אם מסך הפתיחה כבר הוצג בסשן הנוכחי
-      if (!sessionStorage.getItem('splashShown')) {
-        // הוספת ה-CSS לאנימציות ועיצוב מסך הפתיחה
-        const style = document.createElement('style');
-        style.textContent = `
-          .splash-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-            background-color: #FDF6E3; z-index: 9999;
-            display: flex; align-items: center; justify-content: center; flex-direction: column;
-          }
-          .splash-logo { width: 160px; height: auto; animation: splashPulse 1.5s ease-in-out; }
-          .splash-loader { width: 48px; height: 3px; background-color: #E5DCC5; border-radius: 2px; margin-top: 24px; overflow: hidden; }
-          .splash-progress { height: 100%; background-color: #B8860B; border-radius: 2px; animation: splashProgress 1.2s ease-out forwards; }
-          @keyframes splashPulse { 0% { opacity: 0.7; transform: scale(0.95); } 50% { opacity: 1; transform: scale(1); } 100% { opacity: 0.9; transform: scale(0.98); } }
-          @keyframes splashProgress { 0% { width: 0%; } 100% { width: 100%; } }
-          @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
-          .fade-out { animation: fadeOut 1s forwards; }
-        `;
-        document.head.appendChild(style);
-
-        // יצירת אלמנט מסך הפתיחה
-        const splash = document.createElement('div');
-        splash.className = 'splash-screen';
-        splash.innerHTML = `
-          <img src="${window.location.origin}/logo.png" alt="ENGEE Logo" class="splash-logo" onerror="this.style.display='none'" />
-          <div class="splash-loader"><div class="splash-progress"></div></div>
-        `;
-        document.body.appendChild(splash);
-
-        // קביעת דגל ב-sessionStorage כדי למנוע הופעה חוזרת
-        sessionStorage.setItem('splashShown', 'true');
-
-        // הסרת מסך הפתיחה לאחר 1.2 שניות
-        setTimeout(() => {
-          splash.classList.add('fade-out');
-          setTimeout(() => {
-            splash.remove();
-            // הסרת ה-style לאחר שהאנימציה הסתיימה
-            style.remove();
-          }, 1000);
-        }, 1200);
-      }
-    }
-    
     loadInitialData();
   }, [loadInitialData]);
 

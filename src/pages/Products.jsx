@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useLocation } from "react-router-dom";
 import { Product } from "@/entities/Product";
 import { SiteSettings } from "@/entities/SiteSettings";
 import { WishlistItem } from "@/entities/WishlistItem";
@@ -11,6 +12,7 @@ import ProductCard from "@/components/ProductCard";
 
 export default function Products() {
   const { language } = useLanguage();
+  const location = useLocation();
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -22,30 +24,26 @@ export default function Products() {
   const [isTogglingWishlist, setIsTogglingWishlist] = useState(false);
   const [activeSale, setActiveSale] = useState(null);
 
+  // React to URL search param changes
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const categoryParam = urlParams.get('category');
+    setSelectedCategory(categoryParam ? decodeURIComponent(categoryParam) : "all");
+  }, [location.search]);
+
   const loadProducts = useCallback(async () => {
     try {
       const allProducts = await Product.filter({}, "-created_date");
-      console.log("Data received from API in Products.js:", allProducts);
-      
-      // Add safety checks for products array
       if (Array.isArray(allProducts)) {
         setProducts(allProducts);
-        
-        const urlParams = new URLSearchParams(window.location.search);
-        const categoryParam = urlParams.get('category');
-        if (categoryParam && typeof categoryParam === 'string') {
-          setSelectedCategory(decodeURIComponent(categoryParam));
-        }
       } else {
-        console.error("Invalid products data received:", allProducts);
         setProducts([]);
       }
     } catch (error) {
-      // Per user request, only log the error, do not show a toast to avoid false alarms.
       console.error("Error loading products:", error);
       setProducts([]);
     }
-  }, []); // No external dependencies that would change the function's identity
+  }, []);
 
   const loadSiteSettings = useCallback(async () => {
     try {
