@@ -115,7 +115,7 @@ export default function Home() {
 
   if (isSiteSettingsLoading) {
     return (
-      <div className="min-h-screen bg-[#FDF6E3] flex items-center justify-center">
+      <div className="min-h-screen bg-[#EDECDD] flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-[#B8860B] mx-auto mb-4"></div>
           <p className="text-lg text-[#2D1810]">{language === 'he' ? 'טוען את האתר...' : 'Loading...'}</p>

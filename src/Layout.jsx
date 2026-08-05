@@ -44,7 +44,7 @@ function LoadingScreen({ siteSettings }) {
           <img
             src={siteSettings.logo_url}
             alt="Loading..."
-            className="h-40 w-auto mx-auto animate-pulse"
+            className="h-80 md:h-[480px] max-w-[90vw] w-auto object-contain mx-auto animate-pulse"
           />
         )}
       </motion.div>
