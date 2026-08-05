@@ -1,0 +1,1008 @@
+{
+  "name": "SiteSettings",
+  "type": "object",
+  "properties": {
+    "site_name": {
+      "type": "string",
+      "description": "\u05e9\u05dd \u05d4\u05d0\u05ea\u05e8"
+    },
+    "site_name_en": {
+      "type": "string",
+      "description": "\u05e9\u05dd \u05d4\u05d0\u05ea\u05e8 \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "logo_url": {
+      "type": "string",
+      "description": "\u05db\u05ea\u05d5\u05d1\u05ea \u05ea\u05de\u05d5\u05e0\u05ea \u05d4\u05dc\u05d5\u05d2\u05d5"
+    },
+    "page_media": {
+      "type": "object",
+      "description": "\u05de\u05d3\u05d9\u05d4 \u05e2\u05d1\u05d5\u05e8 \u05db\u05dc \u05e2\u05de\u05d5\u05d3 \u05d1\u05d0\u05ea\u05e8",
+      "properties": {
+        "home": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "image",
+                  "video"
+                ]
+              },
+              "file_url": {
+                "type": "string"
+              },
+              "alt_he": {
+                "type": "string"
+              },
+              "alt_en": {
+                "type": "string"
+              },
+              "order_index": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "about": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "image",
+                  "video"
+                ]
+              },
+              "file_url": {
+                "type": "string"
+              },
+              "alt_he": {
+                "type": "string"
+              },
+              "alt_en": {
+                "type": "string"
+              },
+              "order_index": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "personal_workshops": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "image",
+                  "video"
+                ]
+              },
+              "file_url": {
+                "type": "string"
+              },
+              "alt_he": {
+                "type": "string"
+              },
+              "alt_en": {
+                "type": "string"
+              },
+              "order_index": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "corporate_lectures": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "image",
+                  "video"
+                ]
+              },
+              "file_url": {
+                "type": "string"
+              },
+              "alt_he": {
+                "type": "string"
+              },
+              "alt_en": {
+                "type": "string"
+              },
+              "order_index": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "testimonials": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "image",
+                  "video"
+                ]
+              },
+              "file_url": {
+                "type": "string"
+              },
+              "alt_he": {
+                "type": "string"
+              },
+              "alt_en": {
+                "type": "string"
+              },
+              "order_index": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "blog": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "image",
+                  "video"
+                ]
+              },
+              "file_url": {
+                "type": "string"
+              },
+              "alt_he": {
+                "type": "string"
+              },
+              "alt_en": {
+                "type": "string"
+              },
+              "order_index": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "contact": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "image",
+                  "video"
+                ]
+              },
+              "file_url": {
+                "type": "string"
+              },
+              "alt_he": {
+                "type": "string"
+              },
+              "alt_en": {
+                "type": "string"
+              },
+              "order_index": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    },
+    "logo_height_desktop": {
+      "type": "number",
+      "default": 80,
+      "description": "\u05d2\u05d5\u05d1\u05d4 \u05dc\u05d5\u05d2\u05d5 \u05d1\u05d3\u05e1\u05e7\u05d8\u05d5\u05e4 (\u05d1\u05e4\u05d9\u05e7\u05e1\u05dc\u05d9\u05dd)"
+    },
+    "logo_height_mobile": {
+      "type": "number",
+      "default": 64,
+      "description": "\u05d2\u05d5\u05d1\u05d4 \u05dc\u05d5\u05d2\u05d5 \u05d1\u05de\u05d5\u05d1\u05d9\u05d9\u05dc (\u05d1\u05e4\u05d9\u05e7\u05e1\u05dc\u05d9\u05dd)"
+    },
+    "favicon_url": {
+      "type": "string",
+      "description": "\u05db\u05ea\u05d5\u05d1\u05ea \u05ea\u05de\u05d5\u05e0\u05ea \u05d4-Favicon"
+    },
+    "about_image_url": {
+      "type": "string",
+      "description": "\u05ea\u05de\u05d5\u05e0\u05d4 \u05dc\u05e2\u05de\u05d5\u05d3 \u05d0\u05d5\u05d3\u05d5\u05ea"
+    },
+    "top_bar_text": {
+      "type": "string",
+      "description": "\u05d8\u05e7\u05e1\u05d8 \u05dc\u05d1\u05d0\u05e0\u05e8 \u05d4\u05e2\u05dc\u05d9\u05d5\u05df"
+    },
+    "top_bar_text_en": {
+      "type": "string",
+      "description": "\u05d8\u05e7\u05e1\u05d8 \u05dc\u05d1\u05d0\u05e0\u05e8 \u05d4\u05e2\u05dc\u05d9\u05d5\u05df \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "top_bar_text_color": {
+      "type": "string",
+      "description": "\u05e6\u05d1\u05e2 \u05d8\u05e7\u05e1\u05d8 \u05dc\u05e9\u05d5\u05e8\u05ea \u05d4\u05d4\u05ea\u05e8\u05d0\u05d4 \u05d4\u05e2\u05dc\u05d9\u05d5\u05e0\u05d4"
+    },
+    "shipping_cost": {
+      "type": "number",
+      "default": 30,
+      "description": "\u05e2\u05dc\u05d5\u05ea \u05de\u05e9\u05dc\u05d5\u05d7 \u05e8\u05d2\u05d9\u05dc"
+    },
+    "free_shipping_threshold": {
+      "type": "number",
+      "default": 250,
+      "description": "\u05d4\u05e1\u05db\u05d5\u05dd \u05d4\u05de\u05d9\u05e0\u05d9\u05de\u05dc\u05d9 \u05dc\u05de\u05e9\u05dc\u05d5\u05d7 \u05d7\u05d9\u05e0\u05dd"
+    },
+    "enable_self_pickup": {
+      "type": "boolean",
+      "default": false,
+      "description": "\u05d4\u05e4\u05e2\u05dc\u05ea \u05d0\u05e4\u05e9\u05e8\u05d5\u05ea \u05d0\u05d9\u05e1\u05d5\u05e3 \u05e2\u05e6\u05de\u05d9"
+    },
+    "self_pickup_text": {
+      "type": "string",
+      "default": "\u05d0\u05d9\u05e1\u05d5\u05e3 \u05e2\u05e6\u05de\u05d9 \u05de\u05db\u05e4\u05e8 \u05d4\u05d0\u05d5\u05e8\u05e0\u05d9\u05dd (\u05d1\u05ea\u05d9\u05d0\u05d5\u05dd \u05de\u05e8\u05d0\u05e9)",
+      "description": "\u05d8\u05e7\u05e1\u05d8 \u05dc\u05d0\u05e4\u05e9\u05e8\u05d5\u05ea \u05d0\u05d9\u05e1\u05d5\u05e3 \u05e2\u05e6\u05de\u05d9"
+    },
+    "self_pickup_text_en": {
+      "type": "string",
+      "default": "Self pickup from Kfar HaOranim (by appointment)",
+      "description": "\u05d8\u05e7\u05e1\u05d8 \u05dc\u05d0\u05e4\u05e9\u05e8\u05d5\u05ea \u05d0\u05d9\u05e1\u05d5\u05e3 \u05e2\u05e6\u05de\u05d9 \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "order_notification_email": {
+      "type": "string",
+      "format": "email",
+      "description": "\u05db\u05ea\u05d5\u05d1\u05ea \u05d4\u05de\u05d9\u05d9\u05dc \u05dc\u05e7\u05d1\u05dc\u05ea \u05d4\u05ea\u05e8\u05d0\u05d5\u05ea \u05e2\u05dc \u05d4\u05d6\u05de\u05e0\u05d5\u05ea \u05d7\u05d3\u05e9\u05d5\u05ea"
+    },
+    "enable_gold_plating": {
+      "type": "boolean",
+      "default": false,
+      "description": "\u05d4\u05e4\u05e2\u05dc\u05ea \u05d0\u05d5\u05e4\u05e6\u05d9\u05d9\u05ea \u05e6\u05d9\u05e4\u05d5\u05d9 \u05d6\u05d4\u05d1 \u05d1\u05e2\u05de\u05d5\u05d3 \u05d4\u05de\u05d5\u05e6\u05e8"
+    },
+    "gold_plating_price": {
+      "type": "number",
+      "default": 100,
+      "description": "\u05de\u05d7\u05d9\u05e8 \u05ea\u05d5\u05e1\u05e4\u05ea \u05dc\u05e6\u05d9\u05e4\u05d5\u05d9 \u05d6\u05d4\u05d1"
+    },
+    "hero_image_url": {
+      "type": "string",
+      "description": "\u05ea\u05de\u05d5\u05e0\u05ea \u05e8\u05e7\u05e2 \u05d3\u05e3 \u05d4\u05d1\u05d9\u05ea #1"
+    },
+    "hero_image_url_2": {
+      "type": "string",
+      "description": "\u05ea\u05de\u05d5\u05e0\u05ea \u05e8\u05e7\u05e2 \u05d3\u05e3 \u05d4\u05d1\u05d9\u05ea #2"
+    },
+    "hero_image_url_3": {
+      "type": "string",
+      "description": "\u05ea\u05de\u05d5\u05e0\u05ea \u05e8\u05e7\u05e2 \u05d3\u05e3 \u05d4\u05d1\u05d9\u05ea #3"
+    },
+    "hero_title": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d4\u05d1\u05d9\u05ea: \u05db\u05d5\u05ea\u05e8\u05ea \u05e8\u05d0\u05e9\u05d9\u05ea"
+    },
+    "hero_title_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d4\u05d1\u05d9\u05ea: \u05db\u05d5\u05ea\u05e8\u05ea \u05e8\u05d0\u05e9\u05d9\u05ea \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "hero_subtitle": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d4\u05d1\u05d9\u05ea: \u05ea\u05ea-\u05db\u05d5\u05ea\u05e8\u05ea"
+    },
+    "hero_subtitle_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d4\u05d1\u05d9\u05ea: \u05ea\u05ea-\u05db\u05d5\u05ea\u05e8\u05ea \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "font_size_hebrew": {
+      "type": "number",
+      "default": 20,
+      "description": "\u05d2\u05d5\u05d3\u05dc \u05d2\u05d5\u05e4\u05df \u05d1\u05e1\u05d9\u05e1\u05d9 (\u05d1\u05e4\u05d9\u05e7\u05e1\u05dc\u05d9\u05dd)"
+    },
+    "font_family_hebrew": {
+      "type": "string",
+      "default": "Amatic SC",
+      "description": "\u05de\u05e9\u05e4\u05d7\u05ea \u05d2\u05d5\u05e4\u05df"
+    },
+    "home_feature_1_title": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d4\u05d1\u05d9\u05ea: \u05de\u05d0\u05e4\u05d9\u05d9\u05df 1 - \u05db\u05d5\u05ea\u05e8\u05ea"
+    },
+    "home_feature_1_title_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d4\u05d1\u05d9\u05ea: \u05de\u05d0\u05e4\u05d9\u05d9\u05df 1 - \u05db\u05d5\u05ea\u05e8\u05ea \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "home_feature_1_desc": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d4\u05d1\u05d9\u05ea: \u05de\u05d0\u05e4\u05d9\u05d9\u05df 1 - \u05ea\u05d9\u05d0\u05d5\u05e8"
+    },
+    "home_feature_1_desc_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d4\u05d1\u05d9\u05ea: \u05de\u05d0\u05e4\u05d9\u05d9\u05df 1 - \u05ea\u05d9\u05d0\u05d5\u05e8 \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "home_feature_2_title": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d4\u05d1\u05d9\u05ea: \u05de\u05d0\u05e4\u05d9\u05d9\u05df 2 - \u05db\u05d5\u05ea\u05e8\u05ea"
+    },
+    "home_feature_2_title_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d4\u05d1\u05d9\u05ea: \u05de\u05d0\u05e4\u05d9\u05d9\u05df 2 - \u05db\u05d5\u05ea\u05e8\u05ea \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "home_feature_2_desc": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d4\u05d1\u05d9\u05ea: \u05de\u05d0\u05e4\u05d9\u05d9\u05df 2 - \u05ea\u05d9\u05d0\u05d5\u05e8"
+    },
+    "home_feature_2_desc_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d4\u05d1\u05d9\u05ea: \u05de\u05d0\u05e4\u05d9\u05d9\u05df 2 - \u05ea\u05d9\u05d0\u05d5\u05e8 \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "home_feature_3_title": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d4\u05d1\u05d9\u05ea: \u05de\u05d0\u05e4\u05d9\u05d9\u05df 3 - \u05db\u05d5\u05ea\u05e8\u05ea"
+    },
+    "home_feature_3_title_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d4\u05d1\u05d9\u05ea: \u05de\u05d0\u05e4\u05d9\u05d9\u05df 3 - \u05db\u05d5\u05ea\u05e8\u05ea \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "home_feature_3_desc": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d4\u05d1\u05d9\u05ea: \u05de\u05d0\u05e4\u05d9\u05d9\u05df 3 - \u05ea\u05d9\u05d0\u05d5\u05e8"
+    },
+    "home_feature_3_desc_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d4\u05d1\u05d9\u05ea: \u05de\u05d0\u05e4\u05d9\u05d9\u05df 3 - \u05ea\u05d9\u05d0\u05d5\u05e8 \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "home_categories_title": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d4\u05d1\u05d9\u05ea: \u05db\u05d5\u05ea\u05e8\u05ea \u05e7\u05d8\u05d2\u05d5\u05e8\u05d9\u05d5\u05ea"
+    },
+    "home_categories_title_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d4\u05d1\u05d9\u05ea: \u05db\u05d5\u05ea\u05e8\u05ea \u05e7\u05d8\u05d2\u05d5\u05e8\u05d9\u05d5\u05ea \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "home_categories_subtitle": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d4\u05d1\u05d9\u05ea: \u05ea\u05ea-\u05db\u05d5\u05ea\u05e8\u05ea \u05e7\u05d8\u05d2\u05d5\u05e8\u05d9\u05d5\u05ea"
+    },
+    "home_categories_subtitle_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d4\u05d1\u05d9\u05ea: \u05ea\u05ea-\u05db\u05d5\u05ea\u05e8\u05ea \u05e7\u05d8\u05d2\u05d5\u05e8\u05d9\u05d5\u05ea \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "home_featured_title": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d4\u05d1\u05d9\u05ea: \u05db\u05d5\u05ea\u05e8\u05ea \u05de\u05d5\u05de\u05dc\u05e6\u05d9\u05dd"
+    },
+    "home_featured_title_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d4\u05d1\u05d9\u05ea: \u05db\u05d5\u05ea\u05e8\u05ea \u05de\u05d5\u05de\u05dc\u05e6\u05d9\u05dd \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "home_featured_subtitle": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d4\u05d1\u05d9\u05ea: \u05ea\u05ea-\u05db\u05d5\u05ea\u05e8\u05ea \u05de\u05d5\u05de\u05dc\u05e6\u05d9\u05dd"
+    },
+    "home_featured_subtitle_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d4\u05d1\u05d9\u05ea: \u05ea\u05ea-\u05db\u05d5\u05ea\u05e8\u05ea \u05de\u05d5\u05de\u05dc\u05e6\u05d9\u05dd \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "home_featured_button_text": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d4\u05d1\u05d9\u05ea: \u05d8\u05e7\u05e1\u05d8 \u05db\u05e4\u05ea\u05d5\u05e8 \u05de\u05d5\u05de\u05dc\u05e6\u05d9\u05dd"
+    },
+    "home_featured_button_text_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d4\u05d1\u05d9\u05ea: \u05d8\u05e7\u05e1\u05d8 \u05db\u05e4\u05ea\u05d5\u05e8 \u05de\u05d5\u05de\u05dc\u05e6\u05d9\u05dd \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "home_workshop_button_text": {
+      "type": "string",
+      "default": "\u05dc\u05e1\u05d3\u05e0\u05d0\u05d5\u05ea \u05e9\u05dc\u05d9",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d4\u05d1\u05d9\u05ea: \u05d8\u05e7\u05e1\u05d8 \u05db\u05e4\u05ea\u05d5\u05e8 \u05e1\u05d3\u05e0\u05d0\u05d5\u05ea"
+    },
+    "home_workshop_button_text_en": {
+      "type": "string",
+      "default": "To My Workshops",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d4\u05d1\u05d9\u05ea: \u05d8\u05e7\u05e1\u05d8 \u05db\u05e4\u05ea\u05d5\u05e8 \u05e1\u05d3\u05e0\u05d0\u05d5\u05ea \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "workshop_enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "\u05d4\u05e4\u05e2\u05dc\u05ea \u05d3\u05e3 \u05e1\u05d3\u05e0\u05d0\u05d5\u05ea"
+    },
+    "workshop_background_image": {
+      "type": "string",
+      "description": "\u05ea\u05de\u05d5\u05e0\u05ea \u05e8\u05e7\u05e2 \u05dc\u05d3\u05e3 \u05e1\u05d3\u05e0\u05d0\u05d5\u05ea"
+    },
+    "workshop_text_color": {
+      "type": "string",
+      "default": "#ffffff",
+      "description": "\u05e6\u05d1\u05e2 \u05d4\u05d8\u05e7\u05e1\u05d8 \u05d1\u05d3\u05e3 \u05e1\u05d3\u05e0\u05d0\u05d5\u05ea"
+    },
+    "workshop_title": {
+      "type": "string",
+      "default": "\u05de\u05d6\u05de\u05d9\u05e0\u05d4 \u05d0\u05d5\u05ea\u05da \u05dc\u05e7\u05d1\u05d5\u05e2 \u05e1\u05d3\u05e0\u05ea \u05ea\u05db\u05e9\u05d9\u05d8\u05d9\u05dd",
+      "description": "\u05db\u05d5\u05ea\u05e8\u05ea \u05e8\u05d0\u05e9\u05d9\u05ea - \u05d3\u05e3 \u05e1\u05d3\u05e0\u05d0\u05d5\u05ea"
+    },
+    "workshop_title_en": {
+      "type": "string",
+      "default": "Join Our Jewelry Workshop",
+      "description": "\u05db\u05d5\u05ea\u05e8\u05ea \u05e8\u05d0\u05e9\u05d9\u05ea - \u05d3\u05e3 \u05e1\u05d3\u05e0\u05d0\u05d5\u05ea \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "workshop_subtitle": {
+      "type": "string",
+      "default": "\u05e9\u05d1\u05de\u05d4\u05dc\u05db\u05d4 \u05db\u05dc \u05d0\u05d7\u05ea \u05ea\u05e6\u05d0 \u05e2\u05dd \u05ea\u05db\u05e9\u05d9\u05d8 \u05d1\u05e2\u05d9\u05e6\u05d5\u05d1 \u05d0\u05d9\u05e9\u05d9 \u05e9\u05dc\u05d4",
+      "description": "\u05ea\u05ea-\u05db\u05d5\u05ea\u05e8\u05ea - \u05d3\u05e3 \u05e1\u05d3\u05e0\u05d0\u05d5\u05ea"
+    },
+    "workshop_subtitle_en": {
+      "type": "string",
+      "default": "Create your own unique piece of jewelry",
+      "description": "\u05ea\u05ea-\u05db\u05d5\u05ea\u05e8\u05ea - \u05d3\u05e3 \u05e1\u05d3\u05e0\u05d0\u05d5\u05ea \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "workshop_description": {
+      "type": "string",
+      "default": "\u05db\u05e1\u05e3 925 \u05d0\u05d5 \u05e4\u05dc\u05d9\u05d6 \u05d1\u05e6\u05e4\u05d5\u05d9 \u05d6\u05d4\u05d1",
+      "description": "\u05ea\u05d9\u05d0\u05d5\u05e8 \u05e0\u05d5\u05e1\u05e3 - \u05d3\u05e3 \u05e1\u05d3\u05e0\u05d0\u05d5\u05ea"
+    },
+    "workshop_description_en": {
+      "type": "string",
+      "default": "925 Silver or Gold Plated Brass",
+      "description": "\u05ea\u05d9\u05d0\u05d5\u05e8 \u05e0\u05d5\u05e1\u05e3 - \u05d3\u05e3 \u05e1\u05d3\u05e0\u05d0\u05d5\u05ea \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "workshop_button_text": {
+      "type": "string",
+      "default": "\u05dc\u05de\u05d9\u05d3\u05e2 \u05e0\u05d5\u05e1\u05e3",
+      "description": "\u05d8\u05e7\u05e1\u05d8 \u05db\u05e4\u05ea\u05d5\u05e8 - \u05d3\u05e3 \u05e1\u05d3\u05e0\u05d0\u05d5\u05ea"
+    },
+    "workshop_button_text_en": {
+      "type": "string",
+      "default": "Learn More",
+      "description": "\u05d8\u05e7\u05e1\u05d8 \u05db\u05e4\u05ea\u05d5\u05e8 - \u05d3\u05e3 \u05e1\u05d3\u05e0\u05d0\u05d5\u05ea \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "faq_title": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d4\u05d1\u05d9\u05ea: \u05db\u05d5\u05ea\u05e8\u05ea \u05e9\u05d0\u05dc\u05d5\u05ea \u05d5\u05ea\u05e9\u05d5\u05d1\u05d5\u05ea"
+    },
+    "faq_title_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d4\u05d1\u05d9\u05ea: \u05db\u05d5\u05ea\u05e8\u05ea \u05e9\u05d0\u05dc\u05d5\u05ea \u05d5\u05ea\u05e9\u05d5\u05d1\u05d5\u05ea \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "faq_subtitle": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d4\u05d1\u05d9\u05ea: \u05ea\u05ea-\u05db\u05d5\u05ea\u05e8\u05ea \u05e9\u05d0\u05dc\u05d5\u05ea \u05d5\u05ea\u05e9\u05d5\u05d1\u05d5\u05ea"
+    },
+    "faq_subtitle_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d4\u05d1\u05d9\u05ea: \u05ea\u05ea-\u05db\u05d5\u05ea\u05e8\u05ea \u05e9\u05d0\u05dc\u05d5\u05ea \u05d5\u05ea\u05e9\u05d5\u05d1\u05d5\u05ea \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "faq_question_1": {
+      "type": "string",
+      "description": "\u05e9\u05d0\u05dc\u05d4 1 - \u05e2\u05d1\u05e8\u05d9\u05ea"
+    },
+    "faq_question_1_en": {
+      "type": "string",
+      "description": "\u05e9\u05d0\u05dc\u05d4 1 - \u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "faq_answer_1": {
+      "type": "string",
+      "description": "\u05ea\u05e9\u05d5\u05d1\u05d4 1 - \u05e2\u05d1\u05e8\u05d9\u05ea"
+    },
+    "faq_answer_1_en": {
+      "type": "string",
+      "description": "\u05ea\u05e9\u05d5\u05d1\u05d4 1 - \u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "faq_question_2": {
+      "type": "string",
+      "description": "\u05e9\u05d0\u05dc\u05d4 2 - \u05e2\u05d1\u05e8\u05d9\u05ea"
+    },
+    "faq_question_2_en": {
+      "type": "string",
+      "description": "\u05e9\u05d0\u05dc\u05d4 2 - \u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "faq_answer_2": {
+      "type": "string",
+      "description": "\u05ea\u05e9\u05d5\u05d1\u05d4 2 - \u05e2\u05d1\u05e8\u05d9\u05ea"
+    },
+    "faq_answer_2_en": {
+      "type": "string",
+      "description": "\u05ea\u05e9\u05d5\u05d1\u05d4 2 - \u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "faq_question_3": {
+      "type": "string",
+      "description": "\u05e9\u05d0\u05dc\u05d4 3 - \u05e2\u05d1\u05e8\u05d9\u05ea"
+    },
+    "faq_question_3_en": {
+      "type": "string",
+      "description": "\u05e9\u05d0\u05dc\u05d4 3 - \u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "faq_answer_3": {
+      "type": "string",
+      "description": "\u05ea\u05e9\u05d5\u05d1\u05d4 3 - \u05e2\u05d1\u05e8\u05d9\u05ea"
+    },
+    "faq_answer_3_en": {
+      "type": "string",
+      "description": "\u05ea\u05e9\u05d5\u05d1\u05d4 3 - \u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "faq_question_4": {
+      "type": "string",
+      "description": "\u05e9\u05d0\u05dc\u05d4 4 - \u05e2\u05d1\u05e8\u05d9\u05ea"
+    },
+    "faq_question_4_en": {
+      "type": "string",
+      "description": "\u05e9\u05d0\u05dc\u05d4 4 - \u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "faq_answer_4": {
+      "type": "string",
+      "description": "\u05ea\u05e9\u05d5\u05d1\u05d4 4 - \u05e2\u05d1\u05e8\u05d9\u05ea"
+    },
+    "faq_answer_4_en": {
+      "type": "string",
+      "description": "\u05ea\u05e9\u05d5\u05d1\u05d4 4 - \u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "faq_question_5": {
+      "type": "string",
+      "description": "\u05e9\u05d0\u05dc\u05d4 5 - \u05e2\u05d1\u05e8\u05d9\u05ea"
+    },
+    "faq_question_5_en": {
+      "type": "string",
+      "description": "\u05e9\u05d0\u05dc\u05d4 5 - \u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "faq_answer_5": {
+      "type": "string",
+      "description": "\u05ea\u05e9\u05d5\u05d1\u05d4 5 - \u05e2\u05d1\u05e8\u05d9\u05ea"
+    },
+    "faq_answer_5_en": {
+      "type": "string",
+      "description": "\u05ea\u05e9\u05d5\u05d1\u05d4 5 - \u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "faq_question_6": {
+      "type": "string",
+      "description": "\u05e9\u05d0\u05dc\u05d4 6 - \u05e2\u05d1\u05e8\u05d9\u05ea"
+    },
+    "faq_question_6_en": {
+      "type": "string",
+      "description": "\u05e9\u05d0\u05dc\u05d4 6 - \u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "faq_answer_6": {
+      "type": "string",
+      "description": "\u05ea\u05e9\u05d5\u05d1\u05d4 6 - \u05e2\u05d1\u05e8\u05d9\u05ea"
+    },
+    "faq_answer_6_en": {
+      "type": "string",
+      "description": "\u05ea\u05e9\u05d5\u05d1\u05d4 6 - \u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "faq_question_7": {
+      "type": "string",
+      "description": "\u05e9\u05d0\u05dc\u05d4 7 - \u05e2\u05d1\u05e8\u05d9\u05ea"
+    },
+    "faq_question_7_en": {
+      "type": "string",
+      "description": "\u05e9\u05d0\u05dc\u05d4 7 - \u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "faq_answer_7": {
+      "type": "string",
+      "description": "\u05ea\u05e9\u05d5\u05d1\u05d4 7 - \u05e2\u05d1\u05e8\u05d9\u05ea"
+    },
+    "faq_answer_7_en": {
+      "type": "string",
+      "description": "\u05ea\u05e9\u05d5\u05d1\u05d4 7 - \u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "faq_question_8": {
+      "type": "string",
+      "description": "\u05e9\u05d0\u05dc\u05d4 8 - \u05e2\u05d1\u05e8\u05d9\u05ea"
+    },
+    "faq_question_8_en": {
+      "type": "string",
+      "description": "\u05e9\u05d0\u05dc\u05d4 8 - \u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "faq_answer_8": {
+      "type": "string",
+      "description": "\u05ea\u05e9\u05d5\u05d1\u05d4 8 - \u05e2\u05d1\u05e8\u05d9\u05ea"
+    },
+    "faq_answer_8_en": {
+      "type": "string",
+      "description": "\u05ea\u05e9\u05d5\u05d1\u05d4 8 - \u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "faq_question_9": {
+      "type": "string",
+      "description": "\u05e9\u05d0\u05dc\u05d4 9 - \u05e2\u05d1\u05e8\u05d9\u05ea"
+    },
+    "faq_question_9_en": {
+      "type": "string",
+      "description": "\u05e9\u05d0\u05dc\u05d4 9 - \u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "faq_answer_9": {
+      "type": "string",
+      "description": "\u05ea\u05e9\u05d5\u05d1\u05d4 9 - \u05e2\u05d1\u05e8\u05d9\u05ea"
+    },
+    "faq_answer_9_en": {
+      "type": "string",
+      "description": "\u05ea\u05e9\u05d5\u05d1\u05d4 9 - \u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "faq_question_10": {
+      "type": "string",
+      "description": "\u05e9\u05d0\u05dc\u05d4 10 - \u05e2\u05d1\u05e8\u05d9\u05ea"
+    },
+    "faq_question_10_en": {
+      "type": "string",
+      "description": "\u05e9\u05d0\u05dc\u05d4 10 - \u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "faq_answer_10": {
+      "type": "string",
+      "description": "\u05ea\u05e9\u05d5\u05d1\u05d4 10 - \u05e2\u05d1\u05e8\u05d9\u05ea"
+    },
+    "faq_answer_10_en": {
+      "type": "string",
+      "description": "\u05ea\u05e9\u05d5\u05d1\u05d4 10 - \u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "products_page_title": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05e7\u05d5\u05dc\u05e7\u05e6\u05d9\u05d4: \u05db\u05d5\u05ea\u05e8\u05ea"
+    },
+    "products_page_title_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05e7\u05d5\u05dc\u05e7\u05e6\u05d9\u05d4: \u05db\u05d5\u05ea\u05e8\u05ea \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "products_page_subtitle": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05e7\u05d5\u05dc\u05e7\u05e6\u05d9\u05d4: \u05ea\u05ea-\u05db\u05d5\u05ea\u05e8\u05ea"
+    },
+    "products_page_subtitle_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05e7\u05d5\u05dc\u05e7\u05e6\u05d9\u05d4: \u05ea\u05ea-\u05db\u05d5\u05ea\u05e8\u05ea \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "about_title": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d0\u05d5\u05d3\u05d5\u05ea: \u05db\u05d5\u05ea\u05e8\u05ea \u05e8\u05d0\u05e9\u05d9\u05ea"
+    },
+    "about_title_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d0\u05d5\u05d3\u05d5\u05ea: \u05db\u05d5\u05ea\u05e8\u05ea \u05e8\u05d0\u05e9\u05d9\u05ea \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "about_subtitle": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d0\u05d5\u05d3\u05d5\u05ea: \u05ea\u05ea-\u05db\u05d5\u05ea\u05e8\u05ea"
+    },
+    "about_subtitle_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d0\u05d5\u05d3\u05d5\u05ea: \u05ea\u05ea-\u05db\u05d5\u05ea\u05e8\u05ea \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "about_section_title": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d0\u05d5\u05d3\u05d5\u05ea: \u05db\u05d5\u05ea\u05e8\u05ea \u05e4\u05e1\u05e7\u05d4"
+    },
+    "about_section_title_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d0\u05d5\u05d3\u05d5\u05ea: \u05db\u05d5\u05ea\u05e8\u05ea \u05e4\u05e1\u05e7\u05d4 \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "about_text": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d0\u05d5\u05d3\u05d5\u05ea: \u05d8\u05e7\u05e1\u05d8 \u05e8\u05d0\u05e9\u05d9"
+    },
+    "about_text_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d0\u05d5\u05d3\u05d5\u05ea: \u05d8\u05e7\u05e1\u05d8 \u05e8\u05d0\u05e9\u05d9 \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "about_additional_text": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d0\u05d5\u05d3\u05d5\u05ea: \u05d8\u05e7\u05e1\u05d8 \u05e0\u05d5\u05e1\u05e3"
+    },
+    "about_additional_text_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d0\u05d5\u05d3\u05d5\u05ea: \u05d8\u05e7\u05e1\u05d8 \u05e0\u05d5\u05e1\u05e3 \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "about_vision_title": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d0\u05d5\u05d3\u05d5\u05ea: \u05db\u05d5\u05ea\u05e8\u05ea \u05d7\u05d6\u05d5\u05df"
+    },
+    "about_vision_title_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d0\u05d5\u05d3\u05d5\u05ea: \u05db\u05d5\u05ea\u05e8\u05ea \u05d7\u05d6\u05d5\u05df \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "about_vision_text": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d0\u05d5\u05d3\u05d5\u05ea: \u05d8\u05e7\u05e1\u05d8 \u05d7\u05d6\u05d5\u05df"
+    },
+    "about_vision_text_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d0\u05d5\u05d3\u05d5\u05ea: \u05d8\u05e7\u05e1\u05d8 \u05d7\u05d6\u05d5\u05df \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "about_mission_title": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d0\u05d5\u05d3\u05d5\u05ea: \u05db\u05d5\u05ea\u05e8\u05ea \u05de\u05e9\u05d9\u05de\u05d4"
+    },
+    "about_mission_title_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d0\u05d5\u05d3\u05d5\u05ea: \u05db\u05d5\u05ea\u05e8\u05ea \u05de\u05e9\u05d9\u05de\u05d4 \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "about_mission_text": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d0\u05d5\u05d3\u05d5\u05ea: \u05d8\u05e7\u05e1\u05d8 \u05de\u05e9\u05d9\u05de\u05d4"
+    },
+    "about_mission_text_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d0\u05d5\u05d3\u05d5\u05ea: \u05d8\u05e7\u05e1\u05d8 \u05de\u05e9\u05d9\u05de\u05d4 \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "about_values_title": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d0\u05d5\u05d3\u05d5\u05ea: \u05db\u05d5\u05ea\u05e8\u05ea \u05e2\u05e8\u05db\u05d9\u05dd"
+    },
+    "about_values_title_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d0\u05d5\u05d3\u05d5\u05ea: \u05db\u05d5\u05ea\u05e8\u05ea \u05e2\u05e8\u05db\u05d9\u05dd \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "about_values_text": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d0\u05d5\u05d3\u05d5\u05ea: \u05d8\u05e7\u05e1\u05d8 \u05e2\u05e8\u05db\u05d9\u05dd"
+    },
+    "about_values_text_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05d0\u05d5\u05d3\u05d5\u05ea: \u05d8\u05e7\u05e1\u05d8 \u05e2\u05e8\u05db\u05d9\u05dd \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "contact_page_title": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05e6\u05d5\u05e8 \u05e7\u05e9\u05e8: \u05db\u05d5\u05ea\u05e8\u05ea \u05e8\u05d0\u05e9\u05d9\u05ea"
+    },
+    "contact_page_title_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05e6\u05d5\u05e8 \u05e7\u05e9\u05e8: \u05db\u05d5\u05ea\u05e8\u05ea \u05e8\u05d0\u05e9\u05d9\u05ea \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "contact_page_subtitle": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05e6\u05d5\u05e8 \u05e7\u05e9\u05e8: \u05ea\u05ea-\u05db\u05d5\u05ea\u05e8\u05ea"
+    },
+    "contact_page_subtitle_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05e6\u05d5\u05e8 \u05e7\u05e9\u05e8: \u05ea\u05ea-\u05db\u05d5\u05ea\u05e8\u05ea \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "contact_form_title": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05e6\u05d5\u05e8 \u05e7\u05e9\u05e8: \u05db\u05d5\u05ea\u05e8\u05ea \u05d8\u05d5\u05e4\u05e1"
+    },
+    "contact_form_title_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05e6\u05d5\u05e8 \u05e7\u05e9\u05e8: \u05db\u05d5\u05ea\u05e8\u05ea \u05d8\u05d5\u05e4\u05e1 \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "contact_details_title": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05e6\u05d5\u05e8 \u05e7\u05e9\u05e8: \u05db\u05d5\u05ea\u05e8\u05ea \u05e4\u05e8\u05d8\u05d9 \u05d4\u05ea\u05e7\u05e9\u05e8\u05d5\u05ea"
+    },
+    "contact_details_title_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05e6\u05d5\u05e8 \u05e7\u05e9\u05e8: \u05db\u05d5\u05ea\u05e8\u05ea \u05e4\u05e8\u05d8\u05d9 \u05d4\u05ea\u05e7\u05e9\u05e8\u05d5\u05ea \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "contact_hours_title": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05e6\u05d5\u05e8 \u05e7\u05e9\u05e8: \u05db\u05d5\u05ea\u05e8\u05ea \u05e9\u05e2\u05d5\u05ea \u05e4\u05ea\u05d9\u05d7\u05d4"
+    },
+    "contact_hours_title_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05e6\u05d5\u05e8 \u05e7\u05e9\u05e8: \u05db\u05d5\u05ea\u05e8\u05ea \u05e9\u05e2\u05d5\u05ea \u05e4\u05ea\u05d9\u05d7\u05d4 \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "contact_hours_text_1": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05e6\u05d5\u05e8 \u05e7\u05e9\u05e8: \u05e9\u05e2\u05d5\u05ea \u05e4\u05ea\u05d9\u05d7\u05d4 - \u05e9\u05d5\u05e8\u05d4 1"
+    },
+    "contact_hours_text_1_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05e6\u05d5\u05e8 \u05e7\u05e9\u05e8: \u05e9\u05e2\u05d5\u05ea \u05e4\u05ea\u05d9\u05d7\u05d4 - \u05e9\u05d5\u05e8\u05d4 1 \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "contact_hours_text_2": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05e6\u05d5\u05e8 \u05e7\u05e9\u05e8: \u05e9\u05e2\u05d5\u05ea \u05e4\u05ea\u05d9\u05d7\u05d4 - \u05e9\u05d5\u05e8\u05d4 2"
+    },
+    "contact_hours_text_2_en": {
+      "type": "string",
+      "description": "\u05e2\u05de\u05d5\u05d3 \u05e6\u05d5\u05e8 \u05e7\u05e9\u05e8: \u05e9\u05e2\u05d5\u05ea \u05e4\u05ea\u05d9\u05d7\u05d4 - \u05e9\u05d5\u05e8\u05d4 2 \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "contact_phone": {
+      "type": "string",
+      "description": "\u05d8\u05dc\u05e4\u05d5\u05df \u05dc\u05d9\u05e6\u05d9\u05e8\u05ea \u05e7\u05e9\u05e8"
+    },
+    "contact_email": {
+      "type": "string",
+      "description": "\u05d0\u05d9\u05de\u05d9\u05d9\u05dc \u05dc\u05d9\u05e6\u05d9\u05e8\u05ea \u05e7\u05e9\u05e8"
+    },
+    "contact_address": {
+      "type": "string",
+      "description": "\u05db\u05ea\u05d5\u05d1\u05ea \u05d4\u05d7\u05e0\u05d5\u05ea"
+    },
+    "contact_address_en": {
+      "type": "string",
+      "description": "\u05db\u05ea\u05d5\u05d1\u05ea \u05d4\u05d7\u05e0\u05d5\u05ea \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "instagram_url": {
+      "type": "string",
+      "description": "\u05db\u05ea\u05d5\u05d1\u05ea \u05d0\u05d9\u05e0\u05e1\u05d8\u05d2\u05e8\u05dd"
+    },
+    "whatsapp_number": {
+      "type": "string",
+      "description": "\u05de\u05e1\u05e4\u05e8 \u05d5\u05d5\u05d8\u05e1\u05d0\u05e4 \u05e2\u05dd \u05e7\u05d5\u05d3 \u05de\u05d3\u05d9\u05e0\u05d4"
+    },
+    "footer_links_title": {
+      "type": "string",
+      "description": "\u05e4\u05d5\u05d8\u05e8: \u05db\u05d5\u05ea\u05e8\u05ea \u05e7\u05d9\u05e9\u05d5\u05e8\u05d9\u05dd"
+    },
+    "footer_links_title_en": {
+      "type": "string",
+      "description": "\u05e4\u05d5\u05d8\u05e8: \u05db\u05d5\u05ea\u05e8\u05ea \u05e7\u05d9\u05e9\u05d5\u05e8\u05d9\u05dd \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "footer_categories_title": {
+      "type": "string",
+      "description": "\u05e4\u05d5\u05d8\u05e8: \u05db\u05d5\u05ea\u05e8\u05ea \u05e7\u05d8\u05d2\u05d5\u05e8\u05d9\u05d5\u05ea"
+    },
+    "footer_categories_title_en": {
+      "type": "string",
+      "description": "\u05e4\u05d5\u05d8\u05e8: \u05db\u05d5\u05ea\u05e8\u05ea \u05e7\u05d8\u05d2\u05d5\u05e8\u05d9\u05d5\u05ea \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "footer_contact_title": {
+      "type": "string",
+      "description": "\u05e4\u05d5\u05d8\u05e8: \u05db\u05d5\u05ea\u05e8\u05ea \u05e6\u05d5\u05e8 \u05e7\u05e9\u05e8"
+    },
+    "footer_contact_title_en": {
+      "type": "string",
+      "description": "\u05e4\u05d5\u05d8\u05e8: \u05db\u05d5\u05ea\u05e8\u05ea \u05e6\u05d5\u05e8 \u05e7\u05e9\u05e8 \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "footer_social_title": {
+      "type": "string",
+      "description": "\u05e4\u05d5\u05d8\u05e8: \u05db\u05d5\u05ea\u05e8\u05ea \u05e8\u05e9\u05ea\u05d5\u05ea \u05d7\u05d1\u05e8\u05ea\u05d9\u05d5\u05ea"
+    },
+    "footer_social_title_en": {
+      "type": "string",
+      "description": "\u05e4\u05d5\u05d8\u05e8: \u05db\u05d5\u05ea\u05e8\u05ea \u05e8\u05e9\u05ea\u05d5\u05ea \u05d7\u05d1\u05e8\u05ea\u05d9\u05d5\u05ea \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
+    },
+    "primary_color": {
+      "type": "string",
+      "description": "\u05e6\u05d1\u05e2 \u05e8\u05d0\u05e9\u05d9 (\u05d6\u05d4\u05d5\u05d1)"
+    },
+    "secondary_color": {
+      "type": "string",
+      "description": "\u05e6\u05d1\u05e2 \u05de\u05e9\u05e0\u05d9 (\u05db\u05e4\u05ea\u05d5\u05e8\u05d9\u05dd)"
+    },
+    "accent_color": {
+      "type": "string",
+      "description": "\u05e6\u05d1\u05e2 \u05d4\u05d3\u05d2\u05e9\u05d4 (\u05d1\u05d4\u05d9\u05e8)"
+    },
+    "background_color": {
+      "type": "string",
+      "description": "\u05e6\u05d1\u05e2 \u05e8\u05e7\u05e2"
+    },
+    "text_color": {
+      "type": "string",
+      "description": "\u05e6\u05d1\u05e2 \u05d8\u05e7\u05e1\u05d8 \u05e8\u05d0\u05e9\u05d9"
+    },
+    "homepage_price_color": {
+      "type": "string",
+      "description": "\u05e6\u05d1\u05e2 \u05d8\u05e7\u05e1\u05d8 \u05dc\u05de\u05d7\u05d9\u05e8\u05d9\u05dd (\u05d3\u05e3 \u05d4\u05d1\u05d9\u05ea \u05d1\u05dc\u05d1\u05d3)"
+    },
+    "testimonial_star_color": {
+      "type": "string",
+      "description": "\u05e6\u05d1\u05e2 \u05db\u05d5\u05db\u05d1\u05d9\u05dd (\u05d1\u05d4\u05de\u05dc\u05e6\u05d5\u05ea)"
+    },
+    "font_family_hebrew_mobile": {
+      "type": "string",
+      "enum": [
+        "Amatic SC",
+        "Barlow Condensed",
+        "Truculenta",
+        "Dina",
+        "Yarden",
+        "Karantina",
+        "Varela Round",
+        "Heebo"
+      ],
+      "default": "Amatic SC",
+      "description": "\u05de\u05e9\u05e4\u05d7\u05ea \u05e4\u05d5\u05e0\u05d8\u05d9\u05dd \u05dc\u05e2\u05d1\u05e8\u05d9\u05ea - \u05de\u05d5\u05d1\u05d9\u05d9\u05dc"
+    },
+    "font_family_english_mobile": {
+      "type": "string",
+      "enum": [
+        "Amatic SC",
+        "Barlow Condensed",
+        "Truculenta",
+        "Heebo"
+      ],
+      "default": "Barlow Condensed",
+      "description": "\u05de\u05e9\u05e4\u05d7\u05ea \u05e4\u05d5\u05e0\u05d8\u05d9\u05dd \u05dc\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea - \u05de\u05d5\u05d1\u05d9\u05d9\u05dc"
+    },
+    "font_size_hebrew_mobile": {
+      "type": "string",
+      "enum": [
+        "small",
+        "default",
+        "large",
+        "extra_large",
+        "huge"
+      ],
+      "default": "default",
+      "description": "\u05d2\u05d5\u05d3\u05dc \u05e4\u05d5\u05e0\u05d8 \u05e2\u05d1\u05e8\u05d9\u05ea - \u05de\u05d5\u05d1\u05d9\u05d9\u05dc"
+    },
+    "font_size_english_mobile": {
+      "type": "string",
+      "enum": [
+        "small",
+        "default",
+        "large",
+        "extra_large",
+        "huge"
+      ],
+      "default": "default",
+      "description": "\u05d2\u05d5\u05d3\u05dc \u05e4\u05d5\u05e0\u05d8 \u05d0\u05e0\u05d2\u05dc\u05d9\u05ea - \u05de\u05d5\u05d1\u05d9\u05d9\u05dc"
+    },
+    "font_family_hebrew_desktop": {
+      "type": "string",
+      "enum": [
+        "Amatic SC",
+        "Barlow Condensed",
+        "Truculenta",
+        "Dina",
+        "Yarden",
+        "Karantina",
+        "Varela Round",
+        "Heebo"
+      ],
+      "default": "Amatic SC",
+      "description": "\u05de\u05e9\u05e4\u05d7\u05ea \u05e4\u05d5\u05e0\u05d8\u05d9\u05dd \u05dc\u05e2\u05d1\u05e8\u05d9\u05ea - \u05d3\u05e1\u05e7\u05d8\u05d5\u05e4"
+    },
+    "font_family_english_desktop": {
+      "type": "string",
+      "enum": [
+        "Amatic SC",
+        "Barlow Condensed",
+        "Truculenta",
+        "Heebo"
+      ],
+      "default": "Barlow Condensed",
+      "description": "\u05de\u05e9\u05e4\u05d7\u05ea \u05e4\u05d5\u05e0\u05d8\u05d9\u05dd \u05dc\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea - \u05d3\u05e1\u05e7\u05d8\u05d5\u05e4"
+    },
+    "font_size_hebrew_desktop": {
+      "type": "string",
+      "enum": [
+        "small",
+        "default",
+        "large",
+        "extra_large",
+        "huge"
+      ],
+      "default": "default",
+      "description": "\u05d2\u05d5\u05d3\u05dc \u05e4\u05d5\u05e0\u05d8 \u05e2\u05d1\u05e8\u05d9\u05ea - \u05d3\u05e1\u05e7\u05d8\u05d5\u05e4"
+    },
+    "font_size_english_desktop": {
+      "type": "string",
+      "enum": [
+        "small",
+        "default",
+        "large",
+        "extra_large",
+        "huge"
+      ],
+      "default": "default",
+      "description": "\u05d2\u05d5\u05d3\u05dc \u05e4\u05d5\u05e0\u05d8 \u05d0\u05e0\u05d2\u05dc\u05d9\u05ea - \u05d3\u05e1\u05e7\u05d8\u05d5\u05e4"
+    }
+  },
+  "required": [],
+  "access": {
+    "list": true,
+    "get": true,
+    "create": "user.role == 'admin'",
+    "update": "user.role == 'admin'",
+    "delete": "user.role == 'admin'"
+  },
+  "rls": {
+    "write": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

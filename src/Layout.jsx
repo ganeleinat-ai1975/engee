@@ -32,7 +32,7 @@ import { motion, AnimatePresence } from "framer-motion";
 // מסך פתיחה חדש
 function LoadingScreen({ siteSettings }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ backgroundColor: '#FDF6E3' }}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ backgroundColor: '#EDECDD' }}>
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -187,7 +187,7 @@ function LayoutContent({ children, currentPageName, siteSettings }) {
   const bodyFontDesktopCssValue = language === 'he' ? getFontCssValue(desktopHebrewFontName) : getFontCssValue(desktopEnglishFontName);
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#FDF6E3' }} dir={language === 'he' ? 'rtl' : 'ltr'}>
+    <div className="min-h-screen" style={{ backgroundColor: '#EDECDD' }} dir={language === 'he' ? 'rtl' : 'ltr'}>
       <Toaster position="top-center" richColors />
 
       <style>{`
@@ -214,7 +214,7 @@ function LayoutContent({ children, currentPageName, siteSettings }) {
         }
 
         html, body {
-          background-color: #FDF6E3 !important;
+          background-color: #EDECDD !important;
           opacity: 1 !important;
           visibility: visible !important;
           margin: 0;
@@ -228,7 +228,7 @@ function LayoutContent({ children, currentPageName, siteSettings }) {
           left: 0;
           width: 100%;
           height: 100%;
-          background-color: #FDF6E3;
+          background-color: #EDECDD;
           z-index: -1;
         }
 
@@ -255,7 +255,7 @@ function LayoutContent({ children, currentPageName, siteSettings }) {
           --primary: ${siteSettings?.primary_color ?? '#D4AF37'};
           --secondary: ${siteSettings?.secondary_color ?? '#B8860B'};
           --accent: ${siteSettings?.accent_color ?? '#F5E6A8'};
-          --background: ${siteSettings?.background_color ?? '#FDF6E3'};
+          --background: ${siteSettings?.background_color ?? '#EDECDD'};
           --text-main: ${siteSettings?.text_color ?? '#2D1810'};
           --text-subtle: #7a5f0b;
 
@@ -820,8 +820,8 @@ export default function Layout({ children, currentPageName }) {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      document.body.style.backgroundColor = '#FDF6E3';
-      document.documentElement.style.backgroundColor = '#FDF6E3';
+      document.body.style.backgroundColor = '#EDECDD';
+      document.documentElement.style.backgroundColor = '#EDECDD';
 
       try {
         const keysToRemove = [];

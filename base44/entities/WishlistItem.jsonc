@@ -1,0 +1,33 @@
+{
+  "name": "WishlistItem",
+  "type": "object",
+  "properties": {
+    "product_id": {
+      "type": "string",
+      "description": "\u05de\u05d6\u05d4\u05d4 \u05d4\u05de\u05d5\u05e6\u05e8"
+    },
+    "user_email": {
+      "type": "string",
+      "description": "\u05d0\u05d9\u05de\u05d9\u05d9\u05dc \u05d4\u05de\u05e9\u05ea\u05de\u05e9"
+    }
+  },
+  "required": [
+    "product_id",
+    "user_email"
+  ],
+  "access": {
+    "list": "record.user_email == user.email",
+    "get": "record.user_email == user.email",
+    "create": "user.id != null",
+    "update": "record.user_email == user.email",
+    "delete": "record.user_email == user.email"
+  },
+  "rls": {
+    "read": {
+      "data.user_email": "{{user.email}}"
+    },
+    "write": {
+      "data.user_email": "{{user.email}}"
+    }
+  }
+}
