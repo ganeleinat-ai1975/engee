@@ -44,18 +44,9 @@ function LoadingScreen({ siteSettings }) {
           <img
             src={siteSettings.logo_url}
             alt="Loading..."
-            className="h-40 w-auto mx-auto mb-6 animate-pulse"
+            className="h-40 w-auto mx-auto animate-pulse"
           />
         )}
-        <div className="w-24 h-1.5 mx-auto rounded-full overflow-hidden" style={{ backgroundColor: '#E5DCC5' }}>
-          <motion.div
-            className="h-full"
-            style={{ backgroundColor: '#B8860B' }}
-            initial={{ width: "0%" }}
-            animate={{ width: "100%" }}
-            transition={{ duration: 2, ease: "easeInOut" }}
-          />
-        </div>
       </motion.div>
     </div>
   );
