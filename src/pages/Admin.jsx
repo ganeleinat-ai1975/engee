@@ -789,6 +789,20 @@ export default function Admin() {
                   accept="image/*"
                 />
 
+                <MediaUploader
+                  label="תמונת רקע דף הבית #4"
+                  onFileSelect={(url) => handleInputChange('hero_image_url_4', url)}
+                  currentUrl={siteSettings?.hero_image_url_4}
+                  accept="image/*"
+                />
+
+                <MediaUploader
+                  label="תמונת רקע דף הבית #5"
+                  onFileSelect={(url) => handleInputChange('hero_image_url_5', url)}
+                  currentUrl={siteSettings?.hero_image_url_5}
+                  accept="image/*"
+                />
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <Label>כותרת ראשית דף הבית (עברית)</Label>

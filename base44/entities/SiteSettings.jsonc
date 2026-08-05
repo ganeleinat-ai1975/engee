@@ -291,6 +291,14 @@
       "type": "string",
       "description": "\u05ea\u05de\u05d5\u05e0\u05ea \u05e8\u05e7\u05e2 \u05d3\u05e3 \u05d4\u05d1\u05d9\u05ea #3"
     },
+    "hero_image_url_4": {
+      "type": "string",
+      "description": "\u05ea\u05de\u05d5\u05e0\u05ea \u05e8\u05e7\u05e2 \u05d3\u05e3 \u05d4\u05d1\u05d9\u05ea #4"
+    },
+    "hero_image_url_5": {
+      "type": "string",
+      "description": "\u05ea\u05de\u05d5\u05e0\u05ea \u05e8\u05e7\u05e2 \u05d3\u05e3 \u05d4\u05d1\u05d9\u05ea #5"
+    },
     "hero_title": {
       "type": "string",
       "description": "\u05e2\u05de\u05d5\u05d3 \u05d4\u05d1\u05d9\u05ea: \u05db\u05d5\u05ea\u05e8\u05ea \u05e8\u05d0\u05e9\u05d9\u05ea"

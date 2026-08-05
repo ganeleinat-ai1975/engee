@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
@@ -26,7 +25,9 @@ export default function Hero({ siteSettings, isLoading }) {
   const heroImages = [
     siteSettings?.hero_image_url,
     siteSettings?.hero_image_url_2,
-    siteSettings?.hero_image_url_3
+    siteSettings?.hero_image_url_3,
+    siteSettings?.hero_image_url_4,
+    siteSettings?.hero_image_url_5
   ].filter(Boolean); // Filter out any null/undefined values if siteSettings don't provide a URL
 
   // Auto-change images every 4 seconds
