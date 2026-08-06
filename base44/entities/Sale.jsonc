@@ -74,5 +74,23 @@
     "create": "user.role == 'admin'",
     "update": "user.role == 'admin'",
     "delete": "user.role == 'admin'"
+  },
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": null,
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
   }
 }
