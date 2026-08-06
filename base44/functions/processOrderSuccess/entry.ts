@@ -99,8 +99,35 @@ Deno.serve(async (req) => {
 
         console.log(`processOrderSuccess: Found order #${order.order_number}, current status: ${order.status}`);
 
-        // שלב 1: עדכון סטטוס ההזמנה לשולם (תמיד, עם asServiceRole)
+        // שלב 1: אימות התשלום מול Cardcom לפני עדכון הסטטוס
         if (order.status !== 'paid') {
+            if (!order.payment_intent_id) {
+                console.error(`processOrderSuccess: Order #${order.order_number} has no payment_intent_id - cannot verify payment`);
+                return new Response(JSON.stringify({ success: false, error: "Payment not verified" }), { status: 402 });
+            }
+
+            const verifyParams = new URLSearchParams({
+                terminalnumber: "171388",
+                username: "wCeznIjAHJmLGMVrNVAp",
+                lowprofilecode: order.payment_intent_id,
+                codepage: "65001",
+            });
+
+            const verifyResponse = await fetch(
+                `https://secure.cardcom.solutions/Interface/BillGoldGetLowProfileIndicator.aspx?${verifyParams.toString()}`
+            );
+            const verifyText = await verifyResponse.text();
+            const verifyResult = new URLSearchParams(verifyText);
+            const operationResponse = verifyResult.get("OperationResponse");
+            const dealResponse = verifyResult.get("DealResponse");
+
+            console.log(`processOrderSuccess: Cardcom verification for order #${order.order_number} - OperationResponse: ${operationResponse}, DealResponse: ${dealResponse}`);
+
+            if (operationResponse !== "0" || dealResponse !== "0") {
+                console.error(`processOrderSuccess: Payment verification failed for order #${order.order_number}`);
+                return new Response(JSON.stringify({ success: false, error: "Payment not verified" }), { status: 402 });
+            }
+
             await base44.asServiceRole.entities.Order.update(order.id, {
                 status: 'paid',
                 payment_status: 'succeeded'
