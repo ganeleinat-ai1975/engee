@@ -797,6 +797,10 @@ function LayoutContent({ children, currentPageName, siteSettings }) {
               <Link to="/accessibility" className="text-white hover:text-accent transition-colors text-sm">
                 {language === 'he' ? 'הצהרת נגישות' : 'Accessibility'}
               </Link>
+              <span className="text-white/50">|</span>
+              <Link to="/terms" className="text-white hover:text-accent transition-colors text-sm">
+                {language === 'he' ? 'תקנון האתר' : 'Terms of Use'}
+              </Link>
             </div>
             <p className="text-white">&copy; {new Date().getFullYear()} {siteName}. {t('allRightsReserved', language)}.</p>
           </div>

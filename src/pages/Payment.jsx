@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 import { CreditCard, Lock, Truck, Shield } from "lucide-react";
 import { SiteSettings } from "@/entities/SiteSettings";
@@ -33,6 +34,8 @@ export default function Payment() {
   const [siteSettings, setSiteSettings] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [errors, setErrors] = useState({});
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [termsError, setTermsError] = useState('');
 
   const [couponCode, setCouponCode] = useState('');
   const [appliedCoupon, setAppliedCoupon] = useState(null);
@@ -246,6 +249,14 @@ export default function Payment() {
       return;
     }
 
+    if (!acceptedTerms) {
+      const msg = language === 'he' ? 'יש לאשר את תקנון האתר כדי להמשיך לתשלום' : 'Please accept the Terms of Use to continue';
+      setTermsError(msg);
+      toast.error(msg);
+      return;
+    }
+    setTermsError('');
+
     setIsProcessing(true);
     toast.info(language === 'he' ? 'יוצר הזמנה ומעביר לתשלום...' : 'Creating order and redirecting to payment...');
 
@@ -292,6 +303,8 @@ export default function Payment() {
         status: 'pending', // Initial status before payment confirmation
         notes: formData.notes,
         language: language,
+        terms_accepted: true,
+        terms_accepted_at: new Date().toISOString(),
       };
 
       // Using the existing and working processOrder function
@@ -303,7 +316,7 @@ export default function Payment() {
       
       const paymentResponse = result.data;
       
-      // Redirect to Cardcom payment page
+      // Redirect to the hosted payment page
       if (paymentResponse.paymentUrl) {
         // Cart clearing logic should ideally happen on the backend after payment confirmation
         // or on a success page that confirms the order is paid.
@@ -642,21 +655,53 @@ export default function Payment() {
                   </div>
                   <p className="text-xs text-subtle">
                     {language === 'he' ? 
-                      'התשלום מתבצע באתר המאובטח של קארדקום' : 
-                      'Payment is processed through Cardcom secure site'
+                      'התשלום מתבצע בדף סליקה מאובטח של חברת סליקה מורשית' : 
+                      'Payment is processed on a secure page of a licensed payment provider'
                     }
                   </p>
                 </div>
 
+                <div className="flex items-start gap-2 mt-4">
+                  <Checkbox
+                    id="accept-terms"
+                    checked={acceptedTerms}
+                    onCheckedChange={(checked) => {
+                      setAcceptedTerms(!!checked);
+                      if (checked) setTermsError('');
+                    }}
+                    className="mt-0.5 flex-shrink-0"
+                  />
+                  <label htmlFor="accept-terms" className="text-sm text-subtle cursor-pointer select-none">
+                    {language === 'he' ? (
+                      <>
+                        קראתי ואני מסכימה/מסכים ל
+                        <a href="/terms" target="_blank" rel="noopener noreferrer" className="text-primary underline">תקנון האתר</a>
+                        {' '}ול
+                        <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-primary underline">מדיניות הפרטיות</a>
+                      </>
+                    ) : (
+                      <>
+                        I have read and agree to the{' '}
+                        <a href="/terms" target="_blank" rel="noopener noreferrer" className="text-primary underline">Terms of Use</a>
+                        {' '}and the{' '}
+                        <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-primary underline">Privacy Policy</a>
+                      </>
+                    )}
+                  </label>
+                </div>
+                {termsError && (
+                  <p className="text-red-500 text-xs">{termsError}</p>
+                )}
+
                 <Button
                   onClick={handlePayment}
-                  disabled={isProcessing || cartItems.length === 0}
+                  disabled={isProcessing || cartItems.length === 0 || !acceptedTerms}
                   className="w-full btn-primary text-sm md:text-base py-4 md:py-6"
                   size="lg"
                 >
                   <CreditCard className="w-4 h-4 ml-2" />
-                  {isProcessing ? 
-                    (language === 'he' ? 'מעבר לתשלום...' : 'Processing...') : 
+                  {isProcessing ?
+                    (language === 'he' ? 'מעבר לתשלום...' : 'Processing...') :
                     (language === 'he' ? `מעבר לתשלום ₪${total.toLocaleString()}` : `Pay ₪${total.toLocaleString()}`)
                   }
                 </Button>
