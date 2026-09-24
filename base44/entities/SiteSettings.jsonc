@@ -264,6 +264,16 @@
       "default": "Self pickup from Kfar HaOranim (by appointment)",
       "description": "\u05d8\u05e7\u05e1\u05d8 \u05dc\u05d0\u05e4\u05e9\u05e8\u05d5\u05ea \u05d0\u05d9\u05e1\u05d5\u05e3 \u05e2\u05e6\u05de\u05d9 \u05d1\u05d0\u05e0\u05d2\u05dc\u05d9\u05ea"
     },
+    "takbull_mode": {
+      "type": "string",
+      "enum": [
+        "off",
+        "test",
+        "live"
+      ],
+      "default": "off",
+      "description": "\u05e1\u05e4\u05e7 \u05e1\u05dc\u05d9\u05e7\u05d4: off = Cardcom \u05db\u05e8\u05d2\u05d9\u05dc, test = \u05ea\u05e7\u05d1\u05d5\u05dc \u05de\u05e6\u05d1 \u05d1\u05d3\u05d9\u05e7\u05d4 (\u05e8\u05e7 \u05d0\u05d3\u05de\u05d9\u05df, \u05d7\u05d9\u05d5\u05d1 1 \u20aa), live = \u05ea\u05e7\u05d1\u05d5\u05dc \u05e4\u05e2\u05d9\u05dc \u05dc\u05db\u05dc \u05d4\u05dc\u05e7\u05d5\u05d7\u05d5\u05ea"
+    },
     "order_notification_email": {
       "type": "string",
       "format": "email",

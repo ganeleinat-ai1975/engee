@@ -149,25 +149,7 @@ export default async function(req) {
       lpUrl: "https://secure.cardcom.solutions/Interface/LowProfile.aspx",
     };
 
-    // === ספק סליקה: TAKBULL_MODE = off (ברירת מחדל - Cardcom) | test (רק אדמין, חיוב 1 ₪) | live (כולם) ===
-    const takbullMode = (Deno.env.get("TAKBULL_MODE") ?? "off").trim().toLowerCase();
-    const takbullCfg = {
-      key: Deno.env.get("TAKBULL_API_KEY") ?? "",
-      secret: Deno.env.get("TAKBULL_API_SECRET") ?? "",
-      documentType: Number(Deno.env.get("TAKBULL_DOCUMENT_TYPE") ?? "400"), // 400 = קבלה (עוסק פטור - ENGEE), 320 = חשבונית מס קבלה (עוסק מורשה)
-      apiBase: "https://api.takbull.co.il",
-    };
-
     const { orderData } = await req.json();
-
-    let provider = "cardcom";
-    if (takbullMode === "live") {
-      provider = "takbull";
-    } else if (takbullMode === "test") {
-      const me = await base44.auth.me().catch(() => null);
-      if (me?.role === "admin") provider = "takbull";
-    }
-    const isTakbullTest = provider === "takbull" && takbullMode === "test";
 
     if (!orderData || !Array.isArray(orderData.items) || orderData.items.length === 0) {
       return json({ success: false, error: "Order data is missing or invalid" }, 400);
@@ -183,6 +165,24 @@ export default async function(req) {
     ]);
     const settings = settingsList.length > 0 ? settingsList[0] : null;
     const activeSale = activeSales.length > 0 ? activeSales[0] : null;
+
+    // === ספק סליקה: takbull_mode מ-SiteSettings (off = Cardcom כרגיל, test = רק אדמין חיוב 1 ₪, live = כולם) ===
+    const takbullMode = (settings?.takbull_mode || "off").trim().toLowerCase();
+    const takbullCfg = {
+      key: Deno.env.get("TAKBULL_API_KEY") ?? "",
+      secret: Deno.env.get("TAKBULL_API_SECRET") ?? "",
+      documentType: Number(Deno.env.get("TAKBULL_DOCUMENT_TYPE") ?? "400"), // 400 = קבלה (עוסק פטור - ENGEE), 320 = חשבונית מס קבלה (עוסק מורשה)
+      apiBase: "https://api.takbull.co.il",
+    };
+
+    let provider = "cardcom";
+    if (takbullMode === "live") {
+      provider = "takbull";
+    } else if (takbullMode === "test") {
+      const me = await base44.auth.me().catch(() => null);
+      if (me?.role === "admin") provider = "takbull";
+    }
+    const isTakbullTest = provider === "takbull" && takbullMode === "test";
     const goldPlatingPrice = settings?.gold_plating_price ?? 100;
 
     const productIds = [...new Set(orderData.items.map((i) => i.product_id))];

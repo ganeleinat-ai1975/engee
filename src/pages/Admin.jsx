@@ -728,6 +728,24 @@ export default function Admin() {
                   </>
                 )}
               </div>
+              {/* ספק סליקה */}
+              <Separator className="my-4" />
+              <h3 className="text-lg font-medium text-gray-800">ספק סליקה</h3>
+              <div>
+                <Label>בחירת ספק סליקה</Label>
+                <Select
+                  value={siteSettings?.takbull_mode || 'off'}
+                  onValueChange={(value) => handleInputChange('takbull_mode', value)}
+                >
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="off">Cardcom (כרגיל)</SelectItem>
+                    <SelectItem value="test">תקבול – מצב בדיקה (רק אדמין, חיוב 1 ₪)</SelectItem>
+                    <SelectItem value="live">תקבול – פעיל לכל הלקוחות</SelectItem>
+                  </SelectContent>
+                </Select>
+                <p className="text-xs text-gray-500 mt-1">במצב בדיקה רק משתמש אדמין מחובר עובר לתקבול. כל השאר ממשיכים ב-Cardcom.</p>
+              </div>
             </SettingsSection>
             
             {/* הגדרות ציפוי זהב */}
