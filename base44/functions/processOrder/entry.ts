@@ -43,6 +43,99 @@ function getSalePrice(product, activeSale) {
   return salePrice;
 }
 
+// ===================== Takbull =====================
+const APP_ID = "6858ff82b4ddfea170c164f0";
+const FUNCTIONS_BASE = `https://base44.app/api/apps/${APP_ID}/functions`;
+
+async function createTakbullPayment({ req, svc, cfg, isTest, order, orderNumber, serverItems, shippingCost, couponDiscount, totalAmount, orderData, shippingMethod }) {
+  if (!cfg.key || !cfg.secret) {
+    await svc.entities.Order.delete(order.id);
+    return json({ success: false, error: "Payment system not configured" }, 500);
+  }
+
+  const origin = req.headers.get("origin");
+  // במצב בדיקה - סביבת הבדיקות של תקבול מאפשרת עד 5 ₪, לכן מחייבים 1 ₪
+  const chargeAmount = isTest ? 1 : totalAmount;
+
+  // שורות החשבונית: סכום השורות חייב להיות שווה בדיוק לסכום החיוב (תקבול לא בודק זאת)
+  let products;
+  if (isTest || couponDiscount > 0) {
+    products = [{
+      SKU: `ORDER-${orderNumber}`,
+      ProductName: `רכישה באתר ENGEE - הזמנה ${orderNumber}`,
+      Price: chargeAmount,
+      Quantity: 1,
+    }];
+  } else {
+    products = serverItems.map((i) => ({
+      SKU: String(i.product_id),
+      ProductName: [i.product_name, i.size ? `מידה ${i.size}` : null, i.gold_plating ? "ציפוי זהב" : null]
+        .filter(Boolean).join(" | ").slice(0, 200),
+      Price: i.price,
+      Quantity: i.quantity,
+    }));
+    if (shippingCost > 0) {
+      products.push({ SKU: "SHIPPING", ProductName: "משלוח", Price: shippingCost, Quantity: 1 });
+    }
+    const linesSum = Math.round(products.reduce((s, p) => s + p.Price * p.Quantity, 0) * 100) / 100;
+    if (Math.abs(linesSum - chargeAmount) > 0.009) {
+      products = [{ SKU: `ORDER-${orderNumber}`, ProductName: `רכישה באתר ENGEE - הזמנה ${orderNumber}`, Price: chargeAmount, Quantity: 1 }];
+    }
+  }
+
+  const addr = shippingMethod === "delivery" ? (orderData.shipping_address || {}) : {};
+  const body = {
+    order_reference: String(orderNumber),
+    OrderTotalSum: chargeAmount,
+    Currency: "ILS",
+    Language: orderData.language === "en" ? "en" : "he",
+    DealType: 1,
+    NumberOfPayments: 1,
+    DisplayType: "redirect",
+    PostProcessMethod: 0,
+    RedirectAddress: `${origin}/OrderSuccess?orderNumber=${orderNumber}&status=success`,
+    CancelReturnAddress: `${origin}/OrderSuccess?orderNumber=${orderNumber}&status=error`,
+    IPNAddress: `${FUNCTIONS_BASE}/processOrderSuccess`,
+    CreateDocument: true,
+    DocumentType: cfg.documentType,
+    CustomerFullName: order.customer_name,
+    CustomerPhoneNumber: order.customer_phone || "",
+    Customer: {
+      CustomerFullName: order.customer_name,
+      Email: orderData.user_email,
+      PhoneNumber: order.customer_phone || "",
+      Address: { Address1: addr.street || "", City: addr.city || "", Zip: addr.postal_code || "", Country: addr.country || "Israel" },
+    },
+    Products: products,
+  };
+
+  let result;
+  try {
+    const res = await fetch(`${cfg.apiBase}/api/ExtranalAPI/GetTakbullPaymentPageRedirectUrl`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "API_Key": cfg.key, "API_Secret": cfg.secret },
+      body: JSON.stringify(body),
+    });
+    result = await res.json().catch(() => ({ responseCode: res.status, description: "Invalid response" }));
+  } catch (e) {
+    result = { responseCode: -1, description: e.message };
+  }
+
+  if (result?.responseCode !== 0 || !result?.uniqId) {
+    console.error(`Takbull create page failed for order #${orderNumber}:`, JSON.stringify(result));
+    await svc.entities.Order.delete(order.id);
+    return json({ success: false, error: `Takbull error ${result?.responseCode}: ${result?.description || "unknown"}` }, 502);
+  }
+
+  await svc.entities.Order.update(order.id, {
+    payment_intent_id: result.uniqId,
+    payment_charge_amount: chargeAmount,
+  });
+
+  const paymentUrl = result.url || `${cfg.apiBase}/PaymentGateway?orderUniqId=${result.uniqId}`;
+  return json({ success: true, paymentUrl, provider: "takbull", test: isTest });
+}
+
 export default async function(req) {
   try {
     const base44 = createClientFromRequest(req);
@@ -55,7 +148,25 @@ export default async function(req) {
       lpUrl: "https://secure.cardcom.solutions/Interface/LowProfile.aspx",
     };
 
+    // === ספק סליקה: TAKBULL_MODE = off (ברירת מחדל - Cardcom) | test (רק אדמין, חיוב 1 ₪) | live (כולם) ===
+    const takbullMode = (Deno.env.get("TAKBULL_MODE") ?? "off").trim().toLowerCase();
+    const takbullCfg = {
+      key: Deno.env.get("TAKBULL_API_KEY") ?? "",
+      secret: Deno.env.get("TAKBULL_API_SECRET") ?? "",
+      documentType: Number(Deno.env.get("TAKBULL_DOCUMENT_TYPE") ?? "320"), // 320 = חשבונית מס קבלה, 400 = קבלה (עוסק פטור)
+      apiBase: "https://api.takbull.co.il",
+    };
+
     const { orderData } = await req.json();
+
+    let provider = "cardcom";
+    if (takbullMode === "live") {
+      provider = "takbull";
+    } else if (takbullMode === "test") {
+      const me = await base44.auth.me().catch(() => null);
+      if (me?.role === "admin") provider = "takbull";
+    }
+    const isTakbullTest = provider === "takbull" && takbullMode === "test";
 
     if (!orderData || !Array.isArray(orderData.items) || orderData.items.length === 0) {
       return json({ success: false, error: "Order data is missing or invalid" }, 400);
@@ -179,10 +290,25 @@ export default async function(req) {
       email_sent: false,
       notes: orderData.notes || '',
       language: orderData.language === 'en' ? 'en' : 'he',
+      // שדות חדשים נכתבים רק בהזמנות תקבול - מסלול Cardcom הקיים לא משתנה
+      ...(provider === "takbull" ? {
+        payment_provider: provider,
+        terms_accepted_at: orderData.terms_accepted === true
+          ? (orderData.terms_accepted_at || new Date().toISOString())
+          : null,
+      } : {}),
     });
 
     if (!newOrder || !newOrder.id) {
       return json({ success: false, error: "Failed to create order in DB" }, 500);
+    }
+
+    if (provider === "takbull") {
+      return await createTakbullPayment({
+        req, svc, cfg: takbullCfg, isTest: isTakbullTest, order: newOrder,
+        orderNumber, serverItems, shippingCost, couponDiscount, totalAmount,
+        orderData, shippingMethod,
+      });
     }
 
     if (!cardcomCfg.pass) {

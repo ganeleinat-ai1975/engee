@@ -70,10 +70,82 @@ const generateAdminEmailHtml = (order, targetEmail) => {
       </div>`;
 };
 
+// ===================== Takbull =====================
+const TAKBULL_API = "https://api.takbull.co.il";
+const TAKBULL_COMPLETED = 3; // GetOrder.orderStatus: 0=Pending,1=Failed,2=Processing,3=Completed,4=OnHold,5=Cancelled,6=Refunded,9=Abandoned
+
+// קורא את הבקשה בכל צורה: POST JSON מהדף, או IPN מתקבול (GET עם query / POST form / POST JSON)
+async function readInput(req) {
+    const url = new URL(req.url);
+    const q = Object.fromEntries(url.searchParams.entries());
+    let body = {};
+    if (req.method === "POST") {
+        const text = await req.text();
+        if (text) {
+            try { body = JSON.parse(text); }
+            catch (_e) { body = Object.fromEntries(new URLSearchParams(text).entries()); }
+        }
+    }
+    const all = { ...q, ...body };
+    const uniqId = all.uniqId || all.uniqid || all.UniqId || null;
+    const orderNumber = all.orderNumber || all.order_reference || all.orderReference || null;
+    return { uniqId, orderNumber, isIpn: !!uniqId };
+}
+
+async function verifyTakbull(order) {
+    const key = Deno.env.get("TAKBULL_API_KEY") ?? "";
+    const secret = Deno.env.get("TAKBULL_API_SECRET") ?? "";
+    if (!key || !secret) return { ok: false, reason: "Takbull not configured" };
+
+    const res = await fetch(`${TAKBULL_API}/api/ExtranalAPI/GetOrder?orderUniqId=${encodeURIComponent(order.payment_intent_id)}`, {
+        headers: { "API_Key": key, "API_Secret": secret },
+    });
+    if (!res.ok) return { ok: false, reason: `GetOrder HTTP ${res.status}` };
+    const t = await res.json();
+
+    const expected = Number(order.payment_charge_amount ?? order.total_amount);
+    const checks = {
+        uniqId: t.uniqId === order.payment_intent_id,
+        reference: String(t.order_reference) === String(order.order_number),
+        amount: Math.abs(Number(t.orderTotalSum) - expected) < 0.01,
+        completed: t.orderStatus === TAKBULL_COMPLETED,
+    };
+    console.log(`verifyTakbull #${order.order_number}: orderStatus=${t.orderStatus} checks=${JSON.stringify(checks)} invoices=${JSON.stringify(t.invoices ?? null).slice(0, 500)}`);
+
+    const ok = Object.values(checks).every(Boolean);
+    const inv = Array.isArray(t.invoices) && t.invoices.length > 0 ? t.invoices[t.invoices.length - 1] : null;
+    return {
+        ok,
+        failed: [1, 5, 9].includes(t.orderStatus),
+        reason: ok ? null : `checks failed: ${JSON.stringify(checks)}`,
+        receipt: inv ? {
+            receipt_number: String(inv.documentNumber ?? inv.number ?? "") || null,
+            receipt_pdf_url: inv.documentUrl || inv.pdfUrl || inv.url || inv.link || null,
+        } : null,
+    };
+}
+
+async function verifyCardcom(order) {
+    const verifyParams = new URLSearchParams({
+        terminalnumber: "171388",
+        username: "wCeznIjAHJmLGMVrNVAp",
+        lowprofilecode: order.payment_intent_id,
+        codepage: "65001",
+    });
+    const verifyResponse = await fetch(
+        `https://secure.cardcom.solutions/Interface/BillGoldGetLowProfileIndicator.aspx?${verifyParams.toString()}`
+    );
+    const verifyResult = new URLSearchParams(await verifyResponse.text());
+    const operationResponse = verifyResult.get("OperationResponse");
+    const dealResponse = verifyResult.get("DealResponse");
+    console.log(`verifyCardcom #${order.order_number} - OperationResponse: ${operationResponse}, DealResponse: ${dealResponse}`);
+    return { ok: operationResponse === "0" && dealResponse === "0" };
+}
+
 Deno.serve(async (req) => {
     try {
         const base44 = createClientFromRequest(req);
-        const { orderNumber } = await req.json();
+        const { orderNumber, uniqId, isIpn } = await readInput(req);
         
         if (!orderNumber) {
             return new Response(JSON.stringify({ success: false, error: "Order number is required" }), { status: 400 });
@@ -99,41 +171,42 @@ Deno.serve(async (req) => {
 
         console.log(`processOrderSuccess: Found order #${order.order_number}, current status: ${order.status}`);
 
-        // שלב 1: אימות התשלום מול Cardcom לפני עדכון הסטטוס
+        // IPN מתקבול: חייב להתאים למזהה התשלום שנשמר על ההזמנה
+        if (isIpn && order.payment_intent_id !== uniqId) {
+            console.error(`processOrderSuccess: IPN uniqId mismatch for order #${order.order_number}`);
+            return new Response(JSON.stringify({ success: false, error: "Order not found" }), { status: 404 });
+        }
+
+        // שלב 1: אימות התשלום מול ספק הסליקה לפני עדכון הסטטוס
         if (order.status !== 'paid') {
             if (!order.payment_intent_id) {
                 console.error(`processOrderSuccess: Order #${order.order_number} has no payment_intent_id - cannot verify payment`);
                 return new Response(JSON.stringify({ success: false, error: "Payment not verified" }), { status: 402 });
             }
 
-            const verifyParams = new URLSearchParams({
-                terminalnumber: "171388",
-                username: "wCeznIjAHJmLGMVrNVAp",
-                lowprofilecode: order.payment_intent_id,
-                codepage: "65001",
-            });
+            const provider = order.payment_provider || 'cardcom';
+            const verification = provider === 'takbull' ? await verifyTakbull(order) : await verifyCardcom(order);
 
-            const verifyResponse = await fetch(
-                `https://secure.cardcom.solutions/Interface/BillGoldGetLowProfileIndicator.aspx?${verifyParams.toString()}`
-            );
-            const verifyText = await verifyResponse.text();
-            const verifyResult = new URLSearchParams(verifyText);
-            const operationResponse = verifyResult.get("OperationResponse");
-            const dealResponse = verifyResult.get("DealResponse");
-
-            console.log(`processOrderSuccess: Cardcom verification for order #${order.order_number} - OperationResponse: ${operationResponse}, DealResponse: ${dealResponse}`);
-
-            if (operationResponse !== "0" || dealResponse !== "0") {
-                console.error(`processOrderSuccess: Payment verification failed for order #${order.order_number}`);
+            if (!verification.ok) {
+                console.error(`processOrderSuccess: Payment verification failed for order #${order.order_number} (${provider}): ${verification.reason || ''}`);
+                if (verification.failed) {
+                    await base44.asServiceRole.entities.Order.update(order.id, { payment_status: 'failed' });
+                }
                 return new Response(JSON.stringify({ success: false, error: "Payment not verified" }), { status: 402 });
             }
 
             await base44.asServiceRole.entities.Order.update(order.id, {
                 status: 'paid',
-                payment_status: 'succeeded'
+                payment_status: 'succeeded',
+                ...(verification.receipt?.receipt_number ? { receipt_number: verification.receipt.receipt_number } : {}),
+                ...(verification.receipt?.receipt_pdf_url ? { receipt_pdf_url: verification.receipt.receipt_pdf_url } : {}),
             });
-            console.log(`processOrderSuccess: Order #${order.order_number} status updated to paid`);
+            console.log(`processOrderSuccess: Order #${order.order_number} status updated to paid (${provider}${isIpn ? ', IPN' : ''})`);
         }
+
+        // מניעת מיילים כפולים כשה-IPN והדף מגיעים יחד - קריאה טרייה של ההזמנה
+        const fresh = await base44.asServiceRole.entities.Order.get(order.id).catch(() => null);
+        if (fresh?.email_sent) order.email_sent = true;
 
         // שלב 2: מציאת כתובת המייל (גם לאורחים)
         let targetEmail = order.user_email;
