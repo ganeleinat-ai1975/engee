@@ -98,6 +98,7 @@ async function createTakbullPayment({ req, svc, cfg, isTest, order, orderNumber,
     IPNAddress: `${FUNCTIONS_BASE}/processOrderSuccess`,
     CreateDocument: true,
     DocumentType: cfg.documentType,
+    Taxtable: cfg.documentType !== 400, // עוסק פטור (קבלה) - בלי מע"מ
     CustomerFullName: order.customer_name,
     CustomerPhoneNumber: order.customer_phone || "",
     Customer: {
@@ -153,7 +154,7 @@ export default async function(req) {
     const takbullCfg = {
       key: Deno.env.get("TAKBULL_API_KEY") ?? "",
       secret: Deno.env.get("TAKBULL_API_SECRET") ?? "",
-      documentType: Number(Deno.env.get("TAKBULL_DOCUMENT_TYPE") ?? "320"), // 320 = חשבונית מס קבלה, 400 = קבלה (עוסק פטור)
+      documentType: Number(Deno.env.get("TAKBULL_DOCUMENT_TYPE") ?? "400"), // 400 = קבלה (עוסק פטור - ENGEE), 320 = חשבונית מס קבלה (עוסק מורשה)
       apiBase: "https://api.takbull.co.il",
     };
 
