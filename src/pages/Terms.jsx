@@ -7,7 +7,7 @@ import { SiteSettings } from '@/entities/SiteSettings';
 const BUSINESS_LEGAL = {
   name_he: "",
   name_en: "",
-  id_number: "",
+  id_number: "326191921",
 };
 
 export default function TermsPage() {
@@ -35,11 +35,11 @@ export default function TermsPage() {
     : (siteSettings?.self_pickup_text_en || 'Self pickup from Kfar HaOranim (by appointment)');
 
   const operatedByHe = BUSINESS_LEGAL.name_he
-    ? `האתר מופעל על ידי ${BUSINESS_LEGAL.name_he}${BUSINESS_LEGAL.id_number ? `, ע.מ./ח.פ. ${BUSINESS_LEGAL.id_number}` : ''}.`
-    : '';
+    ? `האתר מופעל על ידי ${BUSINESS_LEGAL.name_he}${BUSINESS_LEGAL.id_number ? `, עוסק פטור מס' ${BUSINESS_LEGAL.id_number}` : ''}.`
+    : (BUSINESS_LEGAL.id_number ? `האתר מופעל על ידי עוסק פטור מס' ${BUSINESS_LEGAL.id_number}.` : '');
   const operatedByEn = BUSINESS_LEGAL.name_en
-    ? `This website is operated by ${BUSINESS_LEGAL.name_en}${BUSINESS_LEGAL.id_number ? `, Business ID ${BUSINESS_LEGAL.id_number}` : ''}.`
-    : '';
+    ? `This website is operated by ${BUSINESS_LEGAL.name_en}, a VAT-exempt dealer (Business ID ${BUSINESS_LEGAL.id_number}).`
+    : (BUSINESS_LEGAL.id_number ? `This website is operated by a VAT-exempt dealer, Business ID ${BUSINESS_LEGAL.id_number}.` : '');
 
   return (
     <div className="bg-background min-h-screen py-16">
@@ -59,14 +59,14 @@ export default function TermsPage() {
 
             <h2 className="text-xl font-bold text-main">2. המוצרים והמחירים</h2>
             <ul className="list-disc list-inside space-y-1 text-subtle">
-              <li>כל המחירים באתר מוצגים בשקלים חדשים (₪) והם המחירים הסופיים לתשלום (כולל מע"מ, ככל שחל).</li>
+              <li>כל המחירים באתר מוצגים בשקלים חדשים (₪) והם המחירים הסופיים לתשלום. העסק הוא עוסק פטור, ולכן לא נגבה מע"מ.</li>
               <li>תמונות המוצרים להמחשה בלבד. מאחר שמדובר בתכשיטים בעבודת יד, ייתכנו הבדלים קלים בין הפריט המוצג לפריט שיתקבל (גוון, מרקם, מידות).</li>
               <li>ניתן להוסיף ציפוי זהב אופציונלי בתוספת של ₪{goldPlatingPrice} לפריט.</li>
               <li>האתר שומר לעצמו את הזכות לתקן טעות סופר או טעות מחיר בולטת שנפלה בתיאור מוצר, גם לאחר ביצוע הזמנה, ולהודיע על כך ללקוח/ה.</li>
             </ul>
 
             <h2 className="text-xl font-bold text-main">3. הזמנה ותשלום</h2>
-            <p>התשלום באתר מתבצע באמצעות כרטיס אשראי, דרך סליקה מאובטחת של חברת סליקה חיצונית המורשית לכך. פרטי כרטיס האשראי אינם נשמרים באתר. ההזמנה תיחשב כמאושרת רק לאחר קבלת אישור עסקה מחברת הסליקה. חשבונית/מסמך מס יישלחו ללקוח/ה בדוא"ל.</p>
+            <p>התשלום באתר מתבצע באמצעות כרטיס אשראי, דרך סליקה מאובטחת של חברת סליקה חיצונית המורשית לכך. פרטי כרטיס האשראי אינם נשמרים באתר. ההזמנה תיחשב כמאושרת רק לאחר קבלת אישור עסקה מחברת הסליקה. קבלה תישלח ללקוח/ה בדוא"ל.</p>
 
             <h2 className="text-xl font-bold text-main">4. משלוחים ואספקה</h2>
             <ul className="list-disc list-inside space-y-1 text-subtle">
@@ -138,14 +138,14 @@ export default function TermsPage() {
 
             <h2 className="text-xl font-bold text-main">2. Products and Prices</h2>
             <ul className="list-disc list-inside space-y-1 text-subtle">
-              <li>All prices on the site are shown in New Israeli Shekels (₪) and are the final prices to pay (including VAT, where applicable).</li>
+              <li>All prices on the site are shown in New Israeli Shekels (₪) and are the final prices to pay. The business is a VAT-exempt dealer, so no VAT is charged.</li>
               <li>Product photos are for illustration only. As these are handmade items, slight variations between the displayed item and the item received (shade, texture, dimensions) may occur.</li>
               <li>Optional gold plating can be added for an additional ₪{goldPlatingPrice} per item.</li>
               <li>The website reserves the right to correct an obvious typo or pricing error in a product listing, even after an order was placed, and will notify the customer accordingly.</li>
             </ul>
 
             <h2 className="text-xl font-bold text-main">3. Orders and Payment</h2>
-            <p>Payment on the website is made by credit card through a secure clearing process handled by a licensed external payment clearing provider. Card details are not stored on the website. Orders are confirmed only after payment approval is received from the clearing provider. A tax invoice/receipt is sent to the customer by email.</p>
+            <p>Payment on the website is made by credit card through a secure clearing process handled by a licensed external payment clearing provider. Card details are not stored on the website. Orders are confirmed only after payment approval is received from the clearing provider. A receipt is sent to the customer by email.</p>
 
             <h2 className="text-xl font-bold text-main">4. Shipping and Delivery</h2>
             <ul className="list-disc list-inside space-y-1 text-subtle">
