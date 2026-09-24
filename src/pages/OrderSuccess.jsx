@@ -19,6 +19,8 @@ export default function OrderSuccess() {
 
   const orderNumber = new URLSearchParams(search).get("orderNumber");
   const status = new URLSearchParams(search).get("status");
+  // תקבול מוסיף statusCode לכתובת החזרה (0 = הצלחה)
+  const providerStatusCode = new URLSearchParams(search).get("statusCode");
   
   const fetchOrderAndFinalize = useCallback(async () => {
     if (!orderNumber) {
@@ -26,8 +28,8 @@ export default function OrderSuccess() {
       return;
     }
 
-    // אם הסטטוס הוא error מקארדקום - זה באמת שגיאה
-    if (status === "error") {
+    // אם הסטטוס הוא error מספק הסליקה - זה באמת שגיאה
+    if (status === "error" || (providerStatusCode !== null && providerStatusCode !== "0")) {
       setPaymentError(true);
       setIsLoading(false);
       return;
@@ -36,7 +38,16 @@ export default function OrderSuccess() {
     try {
       // קריאה לפונקציית Backend שמטפלת בכל הלוגיקה עם הרשאות מלאות
       // זה מעדכן סטטוס ושולח מיילים - גם לאורחים!
-      await processOrderSuccess({ orderNumber: parseInt(orderNumber, 10) });
+      // התשלום מאומת בשרת מול ספק הסליקה; 402 = התשלום לא אושר
+      try {
+        await processOrderSuccess({ orderNumber: parseInt(orderNumber, 10) });
+      } catch (verifyErr) {
+        if (verifyErr?.response?.status === 402 || verifyErr?.status === 402) {
+          setPaymentError(true);
+          return;
+        }
+        throw verifyErr;
+      }
       
       // מנסים לטעון את ההזמנה להצגה (לא קריטי אם נכשל)
       try {
@@ -59,11 +70,11 @@ export default function OrderSuccess() {
       
     } catch (err) {
       console.error("Order finalization error:", err);
-      // גם אם יש שגיאה כלשהי, אנחנו מציגים הצלחה כי התשלום עבר בקארדקום
+      // שגיאה טכנית (לא דחיית תשלום) - מציגים הצלחה; ההזמנה תאומת גם דרך ה-IPN
     } finally {
       setIsLoading(false);
     }
-  }, [orderNumber, status, clearCart]);
+  }, [orderNumber, status, providerStatusCode, clearCart]);
 
   useEffect(() => {
     fetchOrderAndFinalize();
@@ -79,7 +90,7 @@ export default function OrderSuccess() {
     );
   }
 
-  // רק אם קארדקום החזיר error - אז זו שגיאה אמיתית
+  // רק אם ספק הסליקה החזיר error - אז זו שגיאה אמיתית
   if (paymentError) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center text-center p-4">

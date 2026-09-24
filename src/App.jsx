@@ -9,6 +9,7 @@ import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import PrivacyPolicyPage from './pages/PrivacyPolicy';
 import AccessibilityStatementPage from './pages/AccessibilityStatement';
+import TermsPage from './pages/Terms';
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
@@ -68,6 +69,11 @@ const AuthenticatedApp = () => {
       <Route path="/accessibility" element={
         <LayoutWrapper currentPageName="AccessibilityStatement">
           <AccessibilityStatementPage />
+        </LayoutWrapper>
+      } />
+      <Route path="/terms" element={
+        <LayoutWrapper currentPageName="Terms">
+          <TermsPage />
         </LayoutWrapper>
       } />
       <Route path="*" element={<PageNotFound />} />
