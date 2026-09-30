@@ -21,9 +21,6 @@ import { SiteSettings } from "@/entities/SiteSettings";
 import { Toaster } from "@/components/ui/sonner";
 import CookieConsentBanner from "@/components/CookieConsentBanner";
 import AccessibilityWidget from "@/components/AccessibilityWidget";
-import SiteHeader from "@/components/layout/SiteHeader";
-import SiteFooter from "@/components/layout/SiteFooter";
-import SearchOverlay from "@/components/layout/SearchOverlay";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -59,7 +56,6 @@ function LayoutContent({ children, currentPageName, siteSettings }) {
   const { language, changeLanguage } = useLanguage();
   const { cartCount, initializeCart } = useCart();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [wishlistCount, setWishlistCount] = useState(0);
   const [user, setUser] = useState(null);
   const location = useLocation();
@@ -190,7 +186,7 @@ function LayoutContent({ children, currentPageName, siteSettings }) {
       <Toaster position="top-center" richColors />
 
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Barlow+Condensed:wght@300;400;500;600;700&family=Truculenta:wght@300;400;500;600;700&family=Karantina:wght@300;400;700&family=Varela+Round&family=Heebo:wght@300;400;500;600;700&family=Frank+Ruhl+Libre:wght@300;400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Barlow+Condensed:wght@300;400;500;600;700&family=Truculenta:wght@300;400;500;600;700&family=Karantina:wght@300;400;700&family=Varela+Round&family=Heebo:wght@300;400;500;600;700&display=swap');
         @import url('https://fonts.googleapis.com/earlyaccess/opensanshebrew.css');
         @import url('https://fonts.googleapis.com/earlyaccess/alefhebrew.css');
 
@@ -321,40 +317,6 @@ function LayoutContent({ children, currentPageName, siteSettings }) {
           -moz-osx-font-smoothing: grayscale;
         }
 
-        /* --- Editorial design system --- */
-        .font-editorial {
-          font-family: 'Frank Ruhl Libre', Georgia, serif !important;
-          font-weight: 300 !important;
-          letter-spacing: -0.01em;
-        }
-        .eyebrow {
-          font-family: 'Heebo', sans-serif !important;
-          font-size: 0.62rem;
-          font-weight: 400;
-          letter-spacing: 0.22em;
-          text-transform: uppercase;
-        }
-        .text-white { color: #fff !important; }
-        .hairline { border-color: rgba(101, 80, 60, 0.16) !important; }
-        .bg-surface { background-color: #E4E2D0; }
-        .link-underline { position: relative; background: none; border: 0; cursor: pointer; padding: 0.25rem 0; }
-        .link-underline::after {
-          content: ''; position: absolute; inset-inline-start: 0; bottom: 0; height: 1px; width: 100%;
-          background: currentColor; transform: scaleX(0); transform-origin: var(--origin, left);
-          transition: transform 0.45s cubic-bezier(.2,.7,.2,1);
-        }
-        [dir="rtl"] .link-underline::after { transform-origin: right; }
-        .link-underline:hover::after { transform: scaleX(1); }
-        .btn-editorial, .btn-editorial-light {
-          display: inline-flex; align-items: center; justify-content: center;
-          font-family: 'Heebo', sans-serif !important; font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase;
-          padding: 1rem 2.2rem; transition: background-color .4s, color .4s, border-color .4s;
-        }
-        .btn-editorial { background: var(--secondary); color: #fff !important; border: 1px solid var(--secondary); }
-        .btn-editorial:hover { background: transparent; color: var(--secondary) !important; }
-        .btn-editorial-light { background: transparent; color: #fff !important; border: 1px solid rgba(255,255,255,.85); }
-        .btn-editorial-light:hover { background: #fff; color: var(--text-main) !important; }
-
         .price-text {
           color: var(--text-main) !important;
         }
@@ -460,30 +422,220 @@ function LayoutContent({ children, currentPageName, siteSettings }) {
 
       {(language === 'he' ? siteSettings?.top_bar_text : siteSettings?.top_bar_text_en) && (
         <div
-          className="bg-secondary text-center py-2 px-3 eyebrow"
+          className="bg-secondary text-center py-2 md:py-4 px-2 md:px-4 text-sm md:text-lg font-medium"
           style={{ color: siteSettings?.top_bar_text_color || 'white' }}
         >
           {language === 'he' ? siteSettings.top_bar_text : siteSettings.top_bar_text_en}
         </div>
       )}
 
-      <SiteHeader
-        siteSettings={siteSettings}
-        siteName={siteName}
-        user={user}
-        wishlistCount={wishlistCount}
-        cartCount={cartCount}
-        onOpenMenu={() => setIsMenuOpen(true)}
-        onOpenSearch={() => setIsSearchOpen(true)}
-        onLogout={handleLogout}
-      />
-      <SearchOverlay open={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+      {/* --- Desktop Header --- */}
+                  <header className="hidden md:flex bg-background w-full items-center justify-between px-4 py-2 h-auto" role="banner">
+          <div className="flex items-center gap-2">
+            <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(true)}>
+              <Menu className="w-6 h-6 text-main" />
+            </Button>
+            
+            <Button variant="ghost" size="icon" onClick={() => alert(t('searchFeatureComingSoon', language))}>
+              <Search className="w-6 h-6 text-gray-600" />
+            </Button>
+             
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" title={t('language', language)}>
+                  <Globe className="w-6 h-6 text-gray-600" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => changeLanguage('he')}>עברית</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => changeLanguage('en')}>English</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+
+          <div className="flex-1 flex justify-center">
+            <Link to="/">
+              {siteSettings?.logo_url ? (
+                <>
+                  <img
+                    src={siteSettings.logo_url}
+                    alt={siteName}
+                    className="w-auto object-contain hidden md:block logo-img-desktop"
+                  />
+                  <img
+                    src={siteSettings.logo_url}
+                    alt={siteName}
+                    className="w-auto object-contain block md:hidden logo-img-mobile"
+                  />
+                </>
+              ) : (
+                <span className="text-xl font-bold text-main">{siteName}</span>
+              )}
+            </Link>
+          </div>
+
+          <div className="flex items-center gap-2">
+            {user ? (
+              <>
+                {user.role === 'admin' && (
+                  <Button asChild variant="ghost" size="icon" title={t('admin', language)}>
+                    <Link to={createPageUrl("Admin")}>
+                      <Settings className="w-6 h-6 text-gray-600" />
+                    </Link>
+                  </Button>
+                )}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon" title={t('profile', language)}>
+                      <UserIcon className="w-6 h-6 text-gray-600" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-48">
+                    <div className="px-3 py-2 border-b">
+                      <p className="text-sm font-medium">{user.full_name}</p>
+                      <p className="text-xs text-gray-500">{user.email}</p>
+                    </div>
+                    <DropdownMenuItem onClick={() => window.location.href = createPageUrl('Profile')}>
+                      <UserIcon className="w-4 h-4 mr-2" />
+                      {t('profile', language)}
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => window.location.href = createPageUrl('Orders')}>
+                      <ShoppingBag className="w-4 h-4 mr-2" />
+                      {t('orders', language)}
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleLogout}>
+                      <X className="w-4 h-4 mr-2" />
+                      {t('logout', language)}
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </>
+            ) : (
+              <Button variant="ghost" onClick={() => base44.auth.redirectToLogin()} className="text-gray-700 text-sm p-2">
+                {t('login', language)}
+              </Button>
+            )}
+
+            <Button asChild variant="ghost" size="icon" className="relative" title={t('wishlist', language)}>
+              <Link to={createPageUrl("Wishlist")}>
+                  <Heart className="w-6 h-6 text-gray-600" />
+                  {wishlistCount > 0 && (
+                      <span className="absolute -top-1 -right-1 bg-primary text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold">{wishlistCount}</span>
+                  )}
+              </Link>
+            </Button>
+
+            <Button asChild variant="ghost" size="icon" className="relative" title={t('cart', language)}>
+              <Link to={createPageUrl("Cart")}>
+                <ShoppingBag className="w-6 h-6 text-gray-600" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-primary text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold">{cartCount}</span>
+                )}
+              </Link>
+            </Button>
+          </div>
+      </header>
+
+      {/* --- Mobile Header --- */}
+                  <header className="md:hidden bg-background w-full" role="banner">
+        <div className="flex justify-center items-center h-auto py-0">
+           <Link to="/">
+              {siteSettings?.logo_url ? (
+                <>
+                  <img
+                    src={siteSettings.logo_url}
+                    alt={siteName}
+                    className="w-auto object-contain hidden md:block logo-img-desktop"
+                  />
+                  <img
+                    src={siteSettings.logo_url}
+                    alt={siteName}
+                    className="w-auto object-contain block md:hidden logo-img-mobile"
+                  />
+                </>
+              ) : (
+                <span className="text-xl font-bold text-main">{siteName}</span>
+              )}
+            </Link>
+        </div>
+        <div className="flex justify-between items-center h-10 px-2 -mt-4">
+            <div className="flex items-center gap-1">
+                <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(true)}>
+                    <Menu className="w-5 h-5 text-main" />
+                </Button>
+                 <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon" title={t('language', language)}>
+                            <Globe className="w-5 h-5 text-gray-600" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={() => changeLanguage('he')}>עברית</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => changeLanguage('en')}>English</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+                {user?.role === 'admin' && (
+                    <Button asChild variant="ghost" size="icon" title={t('admin', language)}>
+                        <Link to={createPageUrl("Admin")}>
+                            <Settings className="w-5 h-5 text-gray-600" />
+                        </Link>
+                    </Button>
+                )}
+            </div>
+
+            <div className="flex items-center gap-1">
+                {user ? (
+                     <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon" title={t('profile', language)}>
+                                <UserIcon className="w-5 h-5 text-gray-600" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-48">
+                            <div className="px-3 py-2 border-b">
+                                <p className="text-sm font-medium">{user.full_name}</p>
+                                <p className="text-xs text-gray-500">{user.email}</p>
+                            </div>
+                            <DropdownMenuItem onClick={() => window.location.href = createPageUrl('Profile')}>
+                                <UserIcon className="w-4 h-4 mr-2" />
+                                {t('profile', language)}
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => window.location.href = createPageUrl('Orders')}>
+                                <ShoppingBag className="w-4 h-4 mr-2" />
+                                {t('orders', language)}
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={handleLogout}>
+                                <X className="w-4 h-4 mr-2" />
+                                {t('logout', language)}
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                ) : (
+                    <Button variant="ghost" size="icon" onClick={() => base44.auth.redirectToLogin()}>
+                        <UserIcon className="w-5 h-5 text-gray-600" />
+                    </Button>
+                )}
+                <Button asChild variant="ghost" size="icon" className="relative" title={t('wishlist', language)}>
+                    <Link to={createPageUrl("Wishlist")}>
+                        <Heart className="w-5 h-5 text-gray-600" />
+                        {wishlistCount > 0 && (
+                           <span className="absolute -top-1 -right-1 bg-primary text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold">{wishlistCount}</span>
+                        )}
+                    </Link>
+                </Button>
+                <Button asChild variant="ghost" size="icon" className="relative" title={t('cart', language)}>
+                    <Link to={createPageUrl("Cart")}>
+                        <ShoppingBag className="w-5 h-5 text-gray-600" />
+                        {cartCount > 0 && (
+                            <span className="absolute -top-1 -right-1 bg-primary text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold">{cartCount}</span>
+                        )}
+                    </Link>
+                </Button>
+            </div>
+        </div>
+      </header>
 
       <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div key="menu-backdrop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/30 z-40" onClick={() => setIsMenuOpen(false)} />
-        )}
         {isMenuOpen && (
           <motion.div
             initial={{ x: language === 'he' ? "100%" : "-100%" }}
@@ -548,7 +700,112 @@ function LayoutContent({ children, currentPageName, siteSettings }) {
 
       <main role="main">{children}</main>
 
-      <SiteFooter siteSettings={siteSettings} siteName={siteName} />
+      <footer className="bg-secondary text-white" role="contentinfo">
+        <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+              <h3 className="text-lg font-semibold mb-4 text-white">
+                {language === 'he' ?
+                  (siteSettings?.footer_links_title ?? t('quickLinks', language)) :
+                  (siteSettings?.footer_links_title_en ?? t('quickLinks', language))
+                }
+              </h3>
+              <div className="space-y-2">
+                <Link to={createPageUrl("About")} className="block text-white hover:text-accent transition-colors">{t('about', language)}</Link>
+                <Link to={createPageUrl("Contact")} className="block text-white hover:text-accent transition-colors">{t('contact', language)}</Link>
+                <Link to={createPageUrl("Products")} className="block text-white hover:text-accent transition-colors">{t('products', language)}</Link>
+                <Link to={createPageUrl("Workshop")} className="block text-white hover:text-accent transition-colors">
+                  {language === 'he' ? 'סדנאות' : 'Workshops'}
+                </Link>
+              </div>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold mb-4 text-white">
+                {language === 'he' ?
+                  (siteSettings?.footer_categories_title ?? t('categories', language)) :
+                  (siteSettings?.footer_categories_title_en ?? t('categories', language))
+                }
+              </h3>
+              <div className="space-y-2">
+                <Link to={createPageUrl("Products") + "?category=rings"} className="block text-white hover:text-accent transition-colors">{t('rings', language)}</Link>
+                <Link to={createPageUrl("Products") + "?category=necklaces"} className="block text-white hover:text-accent transition-colors">{t('necklaces', language)}</Link>
+                <Link to={createPageUrl("Products") + "?category=earrings"} className="block text-white hover:text-accent transition-colors">{t('earrings', language)}</Link>
+                <Link to={createPageUrl("Products") + "?category=bracelets"} className="block text-white hover:text-accent transition-colors">{t('bracelets', language)}</Link>
+              </div>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold mb-4 text-white">
+                {language === 'he' ?
+                  (siteSettings?.footer_contact_title ?? t('contact', language)) :
+                  (siteSettings?.footer_contact_title_en ?? t('contact', language))
+                }
+              </h3>
+              <div className="space-y-2 text-white">
+                <p className="text-white">{siteSettings?.contact_phone ?? "03-123-4567"}</p>
+                <p className="text-white">{siteSettings?.contact_email ?? "info@engeejewelry.com"}</p>
+                <p className="text-white">
+                  {language === 'he' ?
+                    (siteSettings?.contact_address ?? "רחוב היהלומים 12, תל אביב") :
+                    (siteSettings?.contact_address_en ?? "12 Diamond Street, Tel Aviv")
+                  }
+                </p>
+              </div>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold mb-4 text-white">
+                {language === 'he' ?
+                  (siteSettings?.footer_social_title ?? t('followUs', language)) :
+                  (siteSettings?.footer_social_title_en ?? t('followUs', language))
+                }
+              </h3>
+              <div className="space-y-2">
+                {siteSettings?.instagram_url && (
+                  <a
+                    href={siteSettings.instagram_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block text-white hover:text-accent transition-colors"
+                  >
+                    Instagram
+                  </a>
+                )}
+                {siteSettings?.whatsapp_number && (
+                  <a
+                    href={`https://wa.me/${siteSettings.whatsapp_number}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block text-white hover:text-accent transition-colors"
+                  >
+                    WhatsApp
+                  </a>
+                )}
+                {!siteSettings?.instagram_url && !siteSettings?.whatsapp_number && (
+                  <>
+                    <p className="text-white">Instagram</p>
+                    <p className="text-white">WhatsApp</p>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="border-t border-primary/20 mt-8 pt-8 text-center text-white">
+            <div className="flex justify-center gap-4 mb-4 flex-wrap">
+              <Link to="/privacy-policy" className="text-white hover:text-accent transition-colors text-sm">
+                {language === 'he' ? 'מדיניות פרטיות' : 'Privacy Policy'}
+              </Link>
+              <span className="text-white/50">|</span>
+              <Link to="/accessibility" className="text-white hover:text-accent transition-colors text-sm">
+                {language === 'he' ? 'הצהרת נגישות' : 'Accessibility'}
+              </Link>
+              <span className="text-white/50">|</span>
+              <Link to="/terms" className="text-white hover:text-accent transition-colors text-sm">
+                {language === 'he' ? 'תקנון האתר' : 'Terms of Use'}
+              </Link>
+            </div>
+            <p className="text-white">&copy; {new Date().getFullYear()} {siteName}. {t('allRightsReserved', language)}.</p>
+          </div>
+        </div>
+      </footer>
       
       <CookieConsentBanner />
       <AccessibilityWidget />

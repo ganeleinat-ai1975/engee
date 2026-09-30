@@ -1,90 +1,123 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
+import { createPageUrl } from "@/utils";
 import { useLanguage } from "@/components/LanguageProvider";
-import { useCart } from "@/components/CartProvider";
-import { Heart, Plus, Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Heart } from "lucide-react";
+import { motion } from "framer-motion";
 import { getSalePrice } from "@/lib/saleUtils";
-
-const formatPrice = (value, language) =>
-  language === "he" ? `₪${value.toLocaleString()}` : `${value.toLocaleString()} NIS`;
 
 export default function ProductCard({ product, wishlist = [], onToggleWishlist, isTogglingWishlist, activeSale }) {
   const { language } = useLanguage();
-  const { addToCart } = useCart();
-  const navigate = useNavigate();
-  const [adding, setAdding] = useState(false);
+  
+  // Safety checks to prevent errors
+  if (!product || typeof product !== 'object') {
+    return null;
+  }
 
-  if (!product || typeof product !== "object") return null;
-
-  const isInWishlist = Array.isArray(wishlist) && wishlist.some((item) => item.product_id === product.id);
-  const name = language === "he" ? product.name || product.name_en || "" : product.name_en || product.name || "";
-  const images = Array.isArray(product.images) ? product.images : [];
+  const isInWishlist = Array.isArray(wishlist) && wishlist.some(item => item.product_id === product.id);
+  
+  const productName = language === 'he' ? 
+    (product.name || product.name_en || '') : 
+    (product.name_en || product.name || '');
+    
+  const imageUrl = Array.isArray(product.images) && product.images.length > 0 ? product.images[0] : null;
   const isSoldOut = (product.stock_quantity || 0) <= 0;
   const salePrice = getSalePrice(product, activeSale);
-  const needsOptions = (product.available_sizes?.length || product.size_options?.length || 0) > 0;
-  const productUrl = `/Product?id=${product.id}`;
 
-  const handleQuickAdd = async (e) => {
-    e.preventDefault();
-    if (needsOptions) return navigate(productUrl);
-    setAdding(true);
-    await addToCart({ product_id: product.id, quantity: 1, gold_plating: false });
-    setAdding(false);
+  const getOptimizedUrl = (url, options = {}) => {
+    if (!url || typeof url !== 'string' || !url.includes('supabase.co')) return url;
+    const { width, quality = 75, format = 'webp' } = options; // איכות 75
+    
+    try {
+      const urlObj = new URL(url);
+      if (width) {
+          urlObj.searchParams.set('width', width);
+      }
+      urlObj.searchParams.set('quality', quality);
+      urlObj.searchParams.set('format', format);
+      return urlObj.toString();
+    } catch (e) {
+      console.warn('Invalid URL for optimization:', url);
+      return url;
+    }
   };
 
-  const quickLabel = needsOptions
-    ? language === "he" ? "בחירת מידה" : "Choose size"
-    : language === "he" ? "הוספה מהירה" : "Quick add";
-
   return (
-    <div className="group">
-      <Link to={productUrl} className="block relative overflow-hidden aspect-[4/5] bg-surface">
-        {images[0] ? (
-          <>
-            <img src={images[0]} alt={name} loading="lazy" className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-[1.03] ${images[1] ? "md:group-hover:opacity-0" : ""} ${isSoldOut ? "grayscale" : ""}`} />
-            {images[1] && (
-              <img src={images[1]} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-700 ease-out hidden md:block md:group-hover:opacity-100" />
-            )}
-          </>
-        ) : (
-          <div className="absolute inset-0 bg-surface" />
+    <motion.div
+      whileHover={{ y: -4 }}
+      transition={{ duration: 0.2 }}
+      className="group text-center"
+    >
+      <div className={`relative overflow-hidden border border-accent/20 w-full aspect-[4/5] mx-auto mb-4`}>
+        {isSoldOut && (
+          <div className="absolute top-2 right-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full z-10">
+            {language === 'he' ? 'אזל' : 'Sold out'}
+          </div>
         )}
-        {(isSoldOut || salePrice !== null) && (
-          <span className="absolute top-3 start-3 eyebrow bg-background text-main px-2 py-1">
-            {isSoldOut ? (language === "he" ? "אזל" : "Sold out") : language === "he" ? "מבצע" : "Sale"}
-          </span>
+        {!isSoldOut && salePrice !== null && (
+          <div className="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full z-10">
+            {language === 'he' ? 'במבצע' : 'SALE'}
+          </div>
         )}
-        <button type="button" aria-label={language === "he" ? "רשימת משאלות" : "Wishlist"}
-          onClick={(e) => { e.preventDefault(); onToggleWishlist?.(product.id); }} disabled={isTogglingWishlist}
-          className="absolute top-2 end-2 p-2 rounded-full hover:bg-white/50 transition-colors">
-          <Heart className={`w-4 h-4 ${isInWishlist ? "fill-current text-secondary" : "text-main"}`} strokeWidth={1.5} />
-        </button>
-        {!isSoldOut && (
-          <button type="button" onClick={handleQuickAdd} disabled={adding}
-            className="absolute bottom-0 inset-x-0 hidden md:flex items-center justify-center gap-2 py-3 bg-background eyebrow text-main translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out">
-            {adding ? <Loader2 className="w-3 h-3 animate-spin" /> : quickLabel}
-          </button>
-        )}
-        {!isSoldOut && (
-          <button type="button" onClick={handleQuickAdd} disabled={adding} aria-label={quickLabel}
-            className="md:hidden absolute bottom-2 end-2 w-9 h-9 rounded-full bg-background flex items-center justify-center">
-            {adding ? <Loader2 className="w-4 h-4 animate-spin text-main" /> : <Plus className="w-4 h-4 text-main" strokeWidth={1.5} />}
-          </button>
-        )}
-      </Link>
-      <div className="pt-4 text-start">
-        <Link to={productUrl} className="block text-main text-sm md:text-base leading-snug hover:opacity-70 transition-opacity">{name}</Link>
-        <div className="mt-1 text-sm flex gap-2 items-baseline">
-          {salePrice !== null ? (
-            <>
-              <span className="text-secondary">{formatPrice(salePrice, language)}</span>
-              <span className="text-subtle line-through text-xs">{formatPrice(product.price, language)}</span>
-            </>
-          ) : typeof product.price === "number" ? (
-            <span className="text-subtle">{formatPrice(product.price, language)}</span>
-          ) : null}
+        <Link to={createPageUrl("Product") + `?id=${product.id}`}>
+          {imageUrl ? (
+            <img
+              src={getOptimizedUrl(imageUrl, { width: 300 })}
+              srcSet={`${getOptimizedUrl(imageUrl, { width: 200 })} 200w,
+                       ${getOptimizedUrl(imageUrl, { width: 300 })} 300w,
+                       ${getOptimizedUrl(imageUrl, { width: 400 })} 400w`}
+              sizes="(max-width: 768px) 50vw, (max-width: 1024px) 25vw, 16.6vw"
+              alt={productName}
+              loading="lazy"
+              className={`w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 ${isSoldOut ? 'grayscale' : ''}`}
+            />
+          ) : (
+            <div className="w-full h-full bg-accent flex items-center justify-center">
+              <div className="w-8 h-8 bg-main/20" />
+            </div>
+          )}
+        </Link>
+      </div>
+
+      <div className="px-2">
+        <div className="flex justify-between items-start gap-2">
+            <div className="text-left flex-1">
+                <h3 className="font-semibold text-main text-base mb-1">
+                  <Link to={createPageUrl("Product") + `?id=${product.id}`} className="hover-text-primary transition-colors">
+                    {productName}
+                  </Link>
+                </h3>
+                {salePrice !== null ? (
+                  <div className="price-text">
+                    <span className="text-gray-400 line-through text-sm">
+                      ₪{product.price.toLocaleString()}
+                    </span>
+                    <p className="text-red-600 font-bold text-lg">
+                      {language === 'he' ? `₪${salePrice.toLocaleString()}` : `${salePrice.toLocaleString()} NIS`}
+                    </p>
+                  </div>
+                ) : (
+                  <p className="text-main font-bold text-lg price-text">
+                    {typeof product.price === 'number' ? (
+                      language === 'he' ? `₪${product.price.toLocaleString()}` : `${product.price.toLocaleString()} NIS`
+                    ) : (
+                      language === 'he' ? 'ללא מחיר' : 'No price'
+                    )}
+                  </p>
+                )}
+            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => onToggleWishlist?.(product.id)}
+              disabled={isTogglingWishlist}
+              className="text-gray-600 hover:text-red-500 rounded-full h-8 w-8 flex-shrink-0"
+            >
+              <Heart className={`w-5 h-5 ${isInWishlist ? 'fill-red-500 text-red-500' : 'text-gray-600'}`} />
+            </Button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
